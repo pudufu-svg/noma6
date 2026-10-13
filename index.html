@@ -610,7 +610,6 @@ function bind(){
       return;
     }
     if((t=e.target.closest("[data-open]"))){ var k=+t.dataset.open; markSeen(k); track("resource_open",{item:k,url:t.href}); return; }
-    if(e.target.closest("[data-cal]")){ addToCalendar(); return; }
     if(e.target.closest("[data-copy]")){ copyLink(); return; }
   });
   /* 히어로 타이머가 화면에서 사라지면 하단 바 표시 */
@@ -672,23 +671,10 @@ function tick(){
   if(p!==lastPhase){
     lastPhase=p;
     var showJoin=(p==="join"||p==="live") && L.joinUrl;
-    var acts = p==="after" ? "" : (showJoin?joinBtn("btn"):"") + (p==="before" ? '<button class="btn ghost" type="button" data-cal>📅 캘린더에 등록</button><button class="btn ghost" type="button" data-copy>🔖 링크 저장</button>' : "");
+    var acts = p==="after" ? "" : (showJoin?joinBtn("btn"):"") + (p==="before" ? '<button class="btn ghost" type="button" data-copy>🔖 링크 저장</button>' : "");
     ["#heroActs","#liveActs"].forEach(function(id){ var b=$(id); if(b) b.innerHTML=acts; });
     $("#stBtn").innerHTML = showJoin ? joinBtn("btn","입장하기") : (p==="before" ? '<a class="btn" href="#top">타이머 보기</a>' : '');
   }
-}
-
-/* 6. 캘린더 -------------------------------------------------------------- */
-function addToCalendar(){
-  track("calendar_add");
-  var f=function(d){ return d.toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,""); };
-  var desc=[L.channel||"","입장 링크는 "+(L.joinOpenTime||"")+" 단톡방에서 공개",L.joinUrl||""].filter(Boolean).join("\\n");
-  var ics=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//recap//KO","CALSCALE:GREGORIAN","BEGIN:VEVENT","UID:"+(CONFIG.cohortId||"")+"-"+Date.now()+"@recap.local",
-    "DTSTAMP:"+f(new Date()),"DTSTART:"+f(startAt),"DTEND:"+f(endAt),"SUMMARY:"+L.title,"DESCRIPTION:"+desc,"LOCATION:"+(L.channel||""),
-    "BEGIN:VALARM","TRIGGER:-PT15M","ACTION:DISPLAY","DESCRIPTION:곧 라이브가 시작됩니다","END:VALARM","END:VEVENT","END:VCALENDAR"].join("\r\n");
-  var url=URL.createObjectURL(new Blob([ics],{type:"text/calendar;charset=utf-8"}));
-  var a=document.createElement("a"); a.href=url; a.download="무료특강.ics"; document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(function(){ URL.revokeObjectURL(url); },1500);
 }
 
 /* 7. 시작 ---------------------------------------------------------------- */
