@@ -213,7 +213,7 @@ const CONFIG = {
           desc: "노블챌 6주 수익화 오프라인 강의 후기",
           thumb: "images/review-yuja_blossom.jpg", url: "https://blog.naver.com/yuja_blossom/224372445715" }
       ],
-      cta:   { label: "크고 작은 성과 전부 모아둔 후기 더 보러가기(클릭) →", icon: "🔎", url: "" },  // TODO: 후기 모음 링크
+      cta:   { label: "크고 작은 성과 전부 모아둔 후기 더 보러가기(클릭) →", icon: "🔎", url: "https://pudufu.co.kr/home/pdf_detail_page/672#review" },
       guide: {
         time:  "후기 하나당 2분",
         live:  "수강생 사례 파트에서 이분들 성과가 화면으로 나옵니다",
