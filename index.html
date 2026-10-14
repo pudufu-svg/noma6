@@ -12,7 +12,7 @@
 <!-- 카카오톡·단톡방 링크 미리보기 (og:image 는 배포 주소 기준 절대경로 권장) -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="지난 일주일, 이 방에 드린 것들을 한곳에 모았습니다">
-<meta property="og:description" content="자료 7개, 순서대로 보면 이야기 하나 · 10/13(화) 저녁 7시 유튜브 라이브">
+<meta property="og:description" content="10/15(목) 저녁 7시 앵콜 LIVE · 못 다룬 쇼핑커넥트까지 · 지난 자료 한곳에">
 <meta property="og:image" content="images/banner.jpg">
 
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -86,6 +86,15 @@ mark{background:linear-gradient(transparent 55%,rgba(255,216,77,.38) 55%);color:
 @keyframes rise{to{opacity:1;transform:none}}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s var(--spring)}
 .reveal.in{opacity:1;transform:none}
+
+/* ── 앵콜 안내 ───────────────────────────────────────── */
+.encore{margin:26px 0 0;border-radius:var(--radius);padding:22px 20px;background:linear-gradient(160deg,#143522 0%,var(--surface) 70%);box-shadow:inset 0 0 0 1.5px rgba(3,199,90,.5)}
+.encore h2{margin:6px 0 12px;font-size:22px;font-weight:900;letter-spacing:-.035em;line-height:1.35;word-break:keep-all}
+.encore p{margin:0 0 12px;font-size:16px;line-height:1.8;color:var(--body);word-break:keep-all}
+.encore .rts{display:grid;gap:8px;margin-top:14px}
+.encore .rt{display:flex;gap:10px;align-items:baseline;padding:12px 14px;border-radius:12px;background:rgba(0,0,0,.25);box-shadow:inset 0 0 0 1px var(--line-2);font-size:15px;word-break:keep-all}
+.encore .rt b{flex:0 0 auto;color:var(--green-hi)}
+.encore .rt span{color:var(--ink)}
 
 /* ── 한눈에 보기 그리드 ──────────────────────────────── */
 .ov{margin:34px 0 0}
@@ -306,6 +315,19 @@ body.focus-mode .tip,body.focus-mode .note{opacity:.45}
 .item.final .cover .rule{background:rgba(0,0,0,.3)}
 .lock{display:flex;gap:10px;align-items:flex-start;margin:0 0 12px;padding:13px 14px;border-radius:12px;background:rgba(0,0,0,.25);border:1px solid var(--line-2);font-size:15px;line-height:1.6;color:var(--body);word-break:keep-all}
 
+/* 앵콜 선물: 골드 톤으로 구분 */
+.item.v-encore{background:linear-gradient(160deg,#2c2410 0%,#17150f 70%);border-color:rgba(255,206,84,.55)}
+.item.v-encore .cover{background:linear-gradient(150deg,#ffd45a,#c98a12)}
+.item.v-encore .cover .num,.item.v-encore .cover .kind{color:#2a1d00}
+.item.v-encore .eyebrow,.item.v-encore .tag:not(.new){color:#ffd45a}
+.item.v-encore .cta{background:#ffcf4a;color:#2a1d00;box-shadow:0 3px 0 #b8860b}
+.item.v-encore .tag.new{background:#ffcf4a;color:#2a1d00}
+.gift.soon.v-encore .gc{background:linear-gradient(160deg,#ffd45a,#a86f0a)}
+.gift.soon.v-encore .veil{color:#ffd45a}
+.gift.v-encore .gc .no{color:#ffd45a}
+.gift.v-encore.new{box-shadow:inset 0 0 0 1.5px rgba(255,206,84,.85),0 20px 44px -30px rgba(255,206,84,.8)}
+.gift.v-encore.new .tg{background:#ffcf4a;color:#2a1d00}
+
 /* 없는 것 / 라이브 */
 .missing ul{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:8px}
 .missing li{display:flex;gap:10px;align-items:flex-start;padding:11px 13px;border-radius:12px;background:var(--bg-2);border:1px dashed var(--line-2);font-size:15.5px;font-weight:700;line-height:1.55;word-break:keep-all}
@@ -468,14 +490,14 @@ function tileHTML(it, i){
   var cover = it.thumb ? '<img src="'+esc(it.thumb)+'" alt="" loading="lazy">' : '<span class="emo">'+esc(it.icon||"📎")+'</span>';
   if(isVid) cover += '<span class="pl">▶</span>';
   cover += '<span class="no">'+CIRC[it.n]+' '+esc(it.kind||"")+'</span><span class="ck">✓</span>';
-  if(it.veil) cover += '<span class="veil">🔒 '+esc(it.veil)+'</span>';
-  return '<a class="gift'+(nw?' new':'')+(it.final?' soon':'')+'" href="#item-'+it.n+'" data-tile="'+it.n+'" style="--i:'+i+'"><div class="gc">'+cover+'</div>'+
+  if(it.veil) cover += '<span class="veil">'+esc(it.lockIcon||"🔒")+' '+esc(it.veil)+'</span>';
+  return '<a class="gift'+(nw?' new':'')+(it.final?' soon':'')+(it.variant?' v-'+esc(it.variant):'')+'" href="#item-'+it.n+'" data-tile="'+it.n+'" style="--i:'+i+'"><div class="gc">'+cover+'</div>'+
          '<div class="gt"><span class="tg">'+(nw?'NEW · 오늘 공개':esc(it.when||""))+'</span><h3>'+esc(it.title)+'</h3>'+(st?'<p class="q">“'+esc(st)+'”</p>':'')+'</div></a>';
 }
 
 function itemHTML(it, i){
   var next = ITEMS[i+1], g = it.guide || {}, links = it.links || [], h = '';
-  h += '<section class="item'+(it.final?' final':'')+'" id="item-'+it.n+'" data-n="'+it.n+'">';
+  h += '<section class="item'+(it.final?' final':'')+(it.variant?' v-'+esc(it.variant):'')+'" id="item-'+it.n+'" data-n="'+it.n+'">';
   h += '<div class="ihead"><div class="cover"><div class="num">'+pad(it.n)+'</div><div class="rule"></div><div class="kind">'+esc(it.kind||"")+'</div></div><div class="hbody"><div class="tags">';
   h += isNewItem(it) ? '<span class="tag new">NEW · '+esc(it.when||"오늘 추가")+'</span>' : (it.when ? '<span class="tag">'+esc(it.when)+'</span>' : '');
   h += '<span class="tag rec" hidden></span></div>';
@@ -485,7 +507,7 @@ function itemHTML(it, i){
   if(g.time || g.live) h += '<div class="pg">'+(g.time?'<span>⏱ <b>'+esc(g.time)+'</b></span>':'')+(g.live?'<span>🎯 오늘 라이브 · '+md(g.live)+'</span>':'')+'</div>';
   h += videoHTML(it.video, it.n);
   if(links.length > 1) h += '<div class="og-list">'+links.map(function(k){ return ogHTML(k, it.n); }).join("")+'</div>';
-  if(it.lockNote) h += '<div class="lock"><span>🔒</span><span>'+md(it.lockNote)+'</span></div>';
+  if(it.lockNote) h += '<div class="lock"><span>'+esc(it.lockIcon||"🔒")+'</span><span>'+md(it.lockNote)+'</span></div>';
   h += ctaHTML(it.cta, it.n);
   if(links.length === 1) h += '<p class="src">'+(ICON[links[0].type]||ICON.link)+' '+esc(links[0].label)+'</p>';
   if(it.preview && it.preview.type === "gdrive"){
@@ -513,10 +535,17 @@ function render(){
   h += '<div class="count" id="count" role="timer" aria-live="off">'+[["d","일"],["h","시간"],["m","분"],["s","초"]].map(function(u,i){
          return '<div class="unit'+(u[0]==="s"?" sec":"")+'" data-unit="'+u[0]+'" style="--i:'+i+'"><div class="digits" data-u="'+u[0]+'"></div><span class="ul">'+u[1]+'</span>'+(u[0]==="s"?'<i class="tickbar" id="tickbar"></i>':'')+'</div>';
        }).join("")+'</div>';
-  h += '<div class="onair" id="onair" hidden><span class="dot"></span><b>LIVE 진행 중</b><small id="onairSub">실시간 1회 · 다시보기 없음</small></div>';
+  h += '<div class="onair" id="onair" hidden><span class="dot"></span><b>LIVE 진행 중</b><small id="onairSub">'+esc(L.liveNote||"")+'</small></div>';
   h += '<p class="status" id="status"></p><p class="when" id="when"></p><div class="actions" id="heroActs"></div>';
   if(H.bookmark) h += '<div class="notice"><span>🔖</span><span>'+md(H.bookmark)+'</span></div>';
   h += '</header>';
+
+  var E = CONFIG.encore;
+  if(E){
+    h += '<section class="encore reveal" id="encore">'+(E.kicker?'<span class="sec-k">'+esc(E.kicker)+'</span>':'')+'<h2>'+md(E.heading||"")+'</h2>'+
+         (E.body||[]).map(function(p){ return '<p>'+md(p)+'</p>'; }).join("")+
+         (E.routes&&E.routes.length?'<div class="rts">'+E.routes.map(function(r){ return '<div class="rt"><b>'+esc(r.label)+'</b><span>→ '+esc(r.text)+'</span></div>'; }).join("")+'</div>':'')+'</section>';
+  }
 
   /* 한눈에 보기 */
   h += '<section class="ov reveal" id="overview">'+(H.overviewKicker?'<span class="sec-k">'+esc(H.overviewKicker)+'</span>':'')+'<h2 class="sec-h2">'+md(H.title)+'</h2>'+(H.sub?'<p class="sec-sub">'+md(H.sub)+'</p>':'');
@@ -630,7 +659,7 @@ function joinBtn(cls,label){ return L.joinUrl ? '<a class="'+cls+'" href="'+esc(
 var lastSec=-1;
 function heroTick(p, t){
   var count=$("#count"), onair=$("#onair"), status=$("#status"), when=$("#when");
-  var whenTxt = dateLabel(startAt)+" "+liveTimeText()+" · "+(L.channel||"")+" · 실시간 1회 · 다시보기 없음";
+  var whenTxt = dateLabel(startAt)+" "+liveTimeText()+" · "+(L.channel||"")+(L.liveNote?" · "+L.liveNote:"");
   if(p==="after"){ count.hidden=true; onair.hidden=true; status.classList.remove("open"); status.textContent="라이브가 끝났습니다. 함께해 주셔서 감사합니다."; when.textContent="다시보기는 없습니다"; return; }
   if(p==="live"){ count.hidden=true; onair.hidden=false; status.classList.add("open"); status.textContent = L.joinUrl ? "지금 입장하세요" : "입장 링크는 이 방에 있어요"; when.textContent=whenTxt; return; }
   count.hidden=false; onair.hidden=true;
@@ -656,7 +685,7 @@ function tick(){
     cd = lab+'<div class="units">'+v.map(function(x){ return '<div class="u"><div class="n">'+pad(x[1])+'</div><div class="s">'+x[0]+'</div></div>'; }).join("")+'</div>'+
          '<div class="joinnote">🔗 입장 링크는 '+esc(L.joinOpenTime)+', 이 방에서만 올라갑니다</div>';
   } else if(p==="join") cd = lab+'<div class="msg">곧 시작합니다 · '+remainText(startAt-nowT)+' 남음</div><div class="sub2">입장 링크가 이 방에 올라가는 시간이에요</div>';
-  else if(p==="live") cd = lab+'<div class="msg">● 지금 라이브 중입니다</div><div class="sub2">실시간 1회 · 다시보기 없음</div>';
+  else if(p==="live") cd = lab+'<div class="msg">● 지금 라이브 중입니다</div><div class="sub2">'+esc(L.liveNote||"")+'</div>';
   else cd = '<div class="msg">특강이 종료되었습니다</div><div class="sub2">함께해 주셔서 감사합니다</div>';
   ["#cd2"].forEach(function(id){ var b=$(id); if(b) b.innerHTML=cd; });
   heroTick(p, nowT);
