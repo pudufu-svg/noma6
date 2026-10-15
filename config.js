@@ -279,12 +279,10 @@ const CONFIG = {
     {
       n: 9, kind: "앵콜 선물", when: "10/15 앵콜 특강 · 끝까지 계신 분께", final: true, variant: "encore", icon: "🎀", veil: "비밀번호는 앵콜 라이브 마지막에",
       date: "2026-10-15",
-      title: "블린이를 위한 블로그 기본셋팅 5단계 미니전자책",
-      cta:   { label: "미니전자책 PDF 미리 받아두기", icon: "⤓",
-               url: "files/blog-setup-5steps.pdf", download: "블린이를 위한 블로그 기본셋팅 5단계 미니전자책.pdf" },
-      lockNote: "파일에 비밀번호가 걸려 있어요. 지금 받아두시고, 비밀번호는 10/15 앵콜 라이브 마지막에만 알려드립니다.",
+      title: "Chat GPT 답답할 때 쓰는 프롬프트 30선",
+      cta:   { label: "자료 받으러가기", icon: "📁", url: "https://drive.google.com/file/d/1JZ8ir-jSLPGuARPxwqv-sYUbHIJcXN2E/view?usp=sharing" },
       guide: {
-        focus: "끝까지 계신 분께 「블린이를 위한 블로그 기본셋팅 5단계 미니전자책」, 비밀번호는 마지막에만"
+        focus: "끝까지 계신 분께 「Chat GPT 답답할 때 쓰는 프롬프트 30선」, 비밀번호는 마지막에만"
       }
     }
   ],
@@ -310,7 +308,7 @@ const CONFIG = {
       { icon: "🔗", text: "입장 링크는 시작 전에 이 방에 남겨드려요" },
       { icon: "🛍", text: "못 다룬 쇼핑커넥트, 가입부터 링크 발급, 글에 붙이기까지 화면으로" },
       { icon: "⚠",  text: "실시간 1회 · 다시보기 없음" },
-      { icon: "🎁", text: "끝까지 계신 분께 「블린이를 위한 블로그 기본셋팅 5단계 미니전자책」, 비밀번호는 마지막에만" }
+      { icon: "🎁", text: "끝까지 계신 분께 「Chat GPT 답답할 때 쓰는 프롬프트 30선」, 비밀번호는 마지막에만" }
     ]
   },
 
