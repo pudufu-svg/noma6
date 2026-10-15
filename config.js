@@ -35,7 +35,7 @@ const CONFIG = {
     durationMin: 120,
     channel:     "유튜브 라이브",
     joinOpenTime:"18:50",
-    joinUrl:     "",                        // 넣으면 18:50부터 '입장하기' 버튼이 생깁니다. 비워두면 안내만.
+    joinUrl:     "https://pudufu.co.kr/live/673",
     joinLabel:   "유튜브 라이브 입장하기",
     liveNote:    "실시간 1회 · 다시보기 없음"   // 타이머 아래·LIVE 표시에 쓰이는 문구
   },
@@ -324,6 +324,18 @@ const CONFIG = {
       { n: "3,267", unit: "명",   label: "지금까지 함께한 누적 수강생" }
     ],
     source: "사전 전자책 7쪽"
+  },
+
+  /* ── 라이브 특가 (페이지 최하단 버튼) ───────────────────────────────── */
+  offer: {
+    kicker: "6기 라이브 특가",
+    title:  "오늘 자정까지, 라이브 결제자 한정",
+    priceFrom: "99만 원",
+    priceTo:   "59만 원",
+    note:   "커리큘럼대로 했는데 월 100 못 벌면 전액 환불 (라이브 결제자 한정)",
+    label:  "라이브 특가로 신청하기",
+    url:    "https://vo.la/yy8HDZW",
+    until:  "2026-10-15T23:59"          // 이 시각(KST)이 지나면 버튼이 자동으로 사라짐
   },
 
   footerNote: "본 페이지는 무료특강 신청자에게만 안내됩니다."
