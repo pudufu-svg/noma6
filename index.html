@@ -55,7 +55,7 @@ mark{background:linear-gradient(transparent 55%,rgba(255,216,77,.38) 55%);color:
 @keyframes bloom{0%{transform:translateX(-50%) scale(.55);opacity:.2}55%{transform:translateX(-50%) scale(1.12);opacity:1}100%{transform:translateX(-50%) scale(1);opacity:.85}}
 .pill{display:inline-flex;align-items:center;height:28px;padding:0 12px;border-radius:999px;background:var(--green);color:#04170c;font-size:12.5px;font-weight:900;margin:0 0 12px;box-shadow:0 12px 24px -12px rgba(3,199,90,.9)}
 .banner{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#000;line-height:0;box-shadow:0 18px 44px rgba(0,0,0,.5)}
-.banner img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+.banner img{width:100%;height:auto}
 .chip{display:inline-flex;align-items:center;gap:8px;height:34px;margin-top:16px;padding:0 13px;border-radius:10px;background:var(--green-soft);box-shadow:inset 0 0 0 1px rgba(3,199,90,.45);font-size:14.5px;font-weight:800;color:var(--green-hi);word-break:keep-all}
 .chip::before{content:"";flex:0 0 8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 0 4px rgba(255,77,77,.22);animation:blink 1.3s infinite}
 @keyframes blink{50%{opacity:.3}}
@@ -539,13 +539,14 @@ function render(){
   var dLabel = dateLabel(startAt);
   h += '<div class="wrap"><header class="hero" id="top"><div class="glow" aria-hidden="true"></div>';
   if(H.kicker) h += '<p class="pill">'+esc(H.kicker)+'</p>';
-  if(B.banner) h += '<figure class="banner"><img src="'+esc(B.banner)+'" alt="'+esc(B.bannerAlt||"")+'" width="1600" height="900" onerror="this.parentNode.remove()"></figure>';
+  if(B.banner) h += '<figure class="banner"><img src="'+esc(B.banner)+'" alt="'+esc(B.bannerAlt||"")+'" onerror="this.parentNode.remove()"></figure>';
   h += '<p class="chip" id="chip">무료 LIVE · '+esc(dLabel)+' '+esc(liveTimeText())+' · '+esc(L.channel||"")+'</p>';
   h += '<div class="count" id="count" role="timer" aria-live="off">'+[["d","일"],["h","시간"],["m","분"],["s","초"]].map(function(u,i){
          return '<div class="unit'+(u[0]==="s"?" sec":"")+'" data-unit="'+u[0]+'" style="--i:'+i+'"><div class="digits" data-u="'+u[0]+'"></div><span class="ul">'+u[1]+'</span>'+(u[0]==="s"?'<i class="tickbar" id="tickbar"></i>':'')+'</div>';
        }).join("")+'</div>';
   h += '<div class="onair" id="onair" hidden><span class="dot"></span><b>LIVE 진행 중</b><small id="onairSub">'+esc(L.liveNote||"")+'</small></div>';
   h += '<p class="status" id="status"></p><p class="when" id="when"></p><div class="actions" id="heroActs"></div>';
+  if(CONFIG.offer&&CONFIG.offer.top) h += offerHTML();
   if(H.bookmark) h += '<div class="notice"><span>🔖</span><span>'+md(H.bookmark)+'</span></div>';
   h += '</header>';
 
@@ -591,12 +592,13 @@ function render(){
     (V.lines||[]).forEach(function(l){ h += '<li><span class="ic">'+esc(l.icon)+'</span><span>'+md(l.text)+'</span></li>'; });
     h += '</ul><div class="cd" id="cd2"></div><div class="actions" id="liveActs"></div></section>';
   }
-  var O = CONFIG.offer;
+  if(!(CONFIG.offer&&CONFIG.offer.top)) h += offerHTML();
+  function offerHTML(){ var O = CONFIG.offer, h='';
   if(O && O.url && !(O.until && now() > kst(O.until.slice(0,10), O.until.slice(11,16)))){
     h += '<section class="offer" id="offer"><span class="ok">'+esc(O.kicker||"")+'</span><h2>'+esc(O.title||"")+'</h2>'+
          '<div class="pr"><s>'+esc(O.priceFrom||"")+'</s><b>'+esc(O.priceTo||"")+'</b></div>'+(O.note?'<p class="nt">'+esc(O.note)+'</p>':'')+
          '<p class="ocd" id="offerCd"></p><a class="cta" href="'+esc(O.url)+'" target="_blank" rel="noopener" data-offer>'+esc(O.label||"신청하기")+' <span class="ar">↗</span></a></section>';
-  }
+  } return h; }
   h += '<footer class="site">'+(CONFIG.footerNote?esc(CONFIG.footerNote)+'<br>':'')+'© '+new Date().getFullYear()+' '+esc(CONFIG.brand||"")+'</footer></div>';
   h += '<div class="stick" id="stick"><div class="in"><div class="txt"><div class="a" id="stA"></div><div class="b" id="stB"></div></div><span id="stBtn"></span></div></div>';
   h += '<div class="toast" id="toast" role="status" aria-live="polite"></div>';
@@ -672,14 +674,19 @@ function copyLink(){
 /* 5. 카운트다운 ---------------------------------------------------------- */
 var lastPhase=null;
 function joinBtn(cls,label){ return L.joinUrl ? '<a class="'+cls+'" href="'+esc(L.joinUrl)+'" target="_blank" rel="noopener">'+esc(label||L.joinLabel||"입장하기")+'</a>' : ''; }
-var lastSec=-1;
+var lastSec=-1, startAtHero=null;
 function heroTick(p, t){
   var count=$("#count"), onair=$("#onair"), status=$("#status"), when=$("#when");
   var whenTxt = dateLabel(startAt)+" "+liveTimeText()+" · "+(L.channel||"")+(L.liveNote?" · "+L.liveNote:"");
-  if(p==="after"){ count.hidden=true; onair.hidden=true; status.classList.remove("open"); status.textContent="라이브가 끝났습니다. 함께해 주셔서 감사합니다."; when.textContent="다시보기는 없습니다"; return; }
-  if(p==="live"){ count.hidden=true; onair.hidden=false; status.classList.add("open"); status.textContent = L.joinUrl ? "지금 입장하세요" : "입장 링크는 이 방에 있어요"; when.textContent=whenTxt; return; }
+  var OF=CONFIG.offer, ofu=OF&&OF.until?kst(OF.until.slice(0,10),OF.until.slice(11,16)):null;
+  if(p==="after" && ofu && t<ofu){ startAtHero=ofu;
+    $("#chip").textContent = esc(OF.kicker||"")+" · "+dateLabel(ofu)+" 자정 마감";
+    status.classList.add("open"); status.textContent="할인 마감까지 남은 시간"; when.textContent=(OF.priceFrom?OF.priceFrom+" → ":"")+(OF.priceTo||"");
+  } else if(p==="after"){ count.hidden=true; onair.hidden=true; status.classList.remove("open"); status.textContent="라이브가 끝났습니다. 함께해 주셔서 감사합니다."; when.textContent="다시보기는 없습니다"; return; }
+  else if(p==="live"){ count.hidden=true; onair.hidden=false; status.classList.add("open"); status.textContent = L.joinUrl ? "지금 입장하세요" : "입장 링크는 이 방에 있어요"; when.textContent=whenTxt; return; }
+  else startAtHero=startAt;
   count.hidden=false; onair.hidden=true;
-  var sec=Math.max(0,Math.floor((startAt-t)/1000));
+  var sec=Math.max(0,Math.floor((startAtHero-t)/1000));
   if(sec!==lastSec){
     lastSec=sec;
     var d=Math.floor(sec/86400);
@@ -687,6 +694,7 @@ function heroTick(p, t){
     setUnit("d",d); setUnit("h",Math.floor(sec/3600)%24); setUnit("m",Math.floor(sec/60)%60); setUnit("s",sec%60);
     var tb=$("#tickbar"); if(tb && !REDUCE){ tb.classList.remove("go"); void tb.offsetWidth; tb.classList.add("go"); }
   }
+  if(p==="after") return;
   var open = p==="join";
   status.classList.toggle("open", open);
   status.textContent = open ? "🔗 입장 링크가 이 방에 올라왔어요" : "🔗 입장 링크는 "+(L.joinOpenTime||"")+", 이 방에서만 올라갑니다";
@@ -705,13 +713,14 @@ function tick(){
   else cd = '<div class="msg">특강이 종료되었습니다</div><div class="sub2">함께해 주셔서 감사합니다</div>';
   ["#cd2"].forEach(function(id){ var b=$(id); if(b) b.innerHTML=cd; });
   heroTick(p, nowT);
-  var oc=$("#offerCd"); if(oc && CONFIG.offer.until){ var ou=kst(CONFIG.offer.until.slice(0,10), CONFIG.offer.until.slice(11,16)); oc.textContent = ou>nowT ? "⏰ 특가 마감까지 "+remainText(ou-nowT) : "특가가 마감되었습니다"; }
+  var oc=$("#offerCd"); if(oc && CONFIG.offer.until){ var ou=kst(CONFIG.offer.until.slice(0,10), CONFIG.offer.until.slice(11,16)); oc.textContent = ou>nowT ? "⏰ 할인 마감까지 "+remainText(ou-nowT) : "할인이 마감되었습니다"; }
 
   $("#stA").textContent = dateLabel(startAt)+" "+L.time+" · "+(L.channel||"");
   var Bt=$("#stB");
   if(p==="before"){ var tj=joinAt-nowT; Bt.innerHTML = tj>6*3600*1000 ? '라이브까지 <em>'+remainText(startAt-nowT)+'</em>' : '입장 링크 '+esc(L.joinOpenTime)+' 공개 · <em>'+remainText(tj)+'</em>'; }
   else if(p==="join") Bt.innerHTML='<em>입장 링크가 이 방에 올라왔어요</em>';
   else if(p==="live") Bt.innerHTML='<em>● 지금 라이브 중</em>';
+  else if(CONFIG.offer && $("#offer")) Bt.innerHTML=esc(CONFIG.offer.kicker||"")+' · <em>'+esc(CONFIG.offer.priceTo||"")+'</em>';
   else Bt.textContent="특강이 종료되었습니다";
 
   if(p!==lastPhase){
@@ -719,7 +728,7 @@ function tick(){
     var showJoin=(p==="join"||p==="live") && L.joinUrl;
     var acts = p==="after" ? "" : (showJoin?joinBtn("btn"):"") + (p==="before" ? '<button class="btn ghost" type="button" data-copy>🔖 링크 저장</button>' : "");
     ["#heroActs","#liveActs"].forEach(function(id){ var b=$(id); if(b) b.innerHTML=acts; });
-    $("#stBtn").innerHTML = showJoin ? joinBtn("btn","입장하기") : (p==="before" ? '<a class="btn" href="#top">타이머 보기</a>' : '');
+    $("#stBtn").innerHTML = showJoin ? joinBtn("btn","입장하기") : (p==="before" ? '<a class="btn" href="#top">타이머 보기</a>' : ($("#offer") ? '<a class="btn" href="'+esc(CONFIG.offer.url)+'" target="_blank" rel="noopener" data-offer>6기 신청</a>' : ''));
   }
 }
 
