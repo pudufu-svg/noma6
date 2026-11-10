@@ -12,7 +12,7 @@
 <!-- 카카오톡·단톡방 링크 미리보기 (og:image 는 배포 주소 기준 절대경로 권장) -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="11/23(월) 저녁 7시 무료 LIVE · 특강 자료방">
-<meta property="og:description" content="11/16(월)부터 특강 날까지 자료가 하루씩 열립니다 · 사전 설문 참여하기">
+<meta property="og:description" content="11/23(월) 특강 날까지, 여기서 자료를 드릴게요 · 사전 설문 참여하기">
 <meta property="og:image" content="https://noma6.vercel.app/images/banner-noma7.jpg">
 <meta property="og:image:width" content="1600">
 <meta property="og:image:height" content="900">
@@ -568,7 +568,7 @@ function itemHTML(it, i){
   var st = storyFor(it.n); if(st) h += '<p class="eyebrow">“'+esc(st)+'”</p>';
   h += '<h2 class="ititle">'+CIRC[it.n]+' '+esc(it.title)+'</h2></div></div><div class="ibody">';
 
-  if(g.time || g.live) h += '<div class="pg">'+(g.time?'<span>⏱ <b>'+esc(g.time)+'</b></span>':'')+(g.live?'<span>🎯 오늘 라이브 · '+md(g.live)+'</span>':'')+'</div>';
+  if(g.time || g.live) h += '<div class="pg">'+(g.time?'<span>⏱ <b>'+esc(g.time)+'</b></span>':'')+(g.live?'<span>🎯 '+esc(dateLabel(startAt))+' 라이브 · '+md(g.live)+'</span>':'')+'</div>';
   h += videoHTML(it.video, it.n);
   if(links.length > 1) h += '<div class="og-list">'+links.map(function(k){ return ogHTML(k, it.n); }).join("")+'</div>';
   if(it.lockNote) h += '<div class="lock"><span>'+esc(it.lockIcon||"🔒")+'</span><span>'+md(it.lockNote)+'</span></div>';
@@ -743,7 +743,7 @@ function heroTick(p, t){
     $("#chip").textContent = esc(OF.kicker||"")+" · "+dateLabel(ofu)+" 자정 마감";
     status.classList.add("open"); status.textContent="할인 마감까지 남은 시간"; when.textContent=(OF.priceFrom?OF.priceFrom+" → ":"")+(OF.priceTo||"");
   } else if(p==="after"){ count.hidden=true; onair.hidden=true; status.classList.remove("open"); status.textContent="라이브가 끝났습니다. 함께해 주셔서 감사합니다."; when.textContent="다시보기는 없습니다"; return; }
-  else if(p==="live"){ count.hidden=true; onair.hidden=false; status.classList.add("open"); status.textContent = L.joinUrl ? "지금 입장하세요" : "입장 링크는 이 방에 있어요"; when.textContent=whenTxt; return; }
+  else if(p==="live"){ count.hidden=true; onair.hidden=false; status.classList.add("open"); status.textContent = L.joinUrl ? "지금 입장하세요" : "입장 링크는 이 페이지에 있어요"; when.textContent=whenTxt; return; }
   else startAtHero=startAt;
   count.hidden=false; onair.hidden=true;
   var sec=Math.max(0,Math.floor((startAtHero-t)/1000));
@@ -757,7 +757,7 @@ function heroTick(p, t){
   if(p==="after") return;
   var open = p==="join";
   status.classList.toggle("open", open);
-  status.textContent = open ? "🔗 입장 링크가 이 방에 올라왔어요" : "🔗 입장 링크는 "+(L.joinOpenTime||"")+", 이 방에서만 올라갑니다";
+  status.textContent = open ? "🔗 입장 링크가 이 페이지에 올라왔어요" : "🔗 입장 링크는 "+(L.joinOpenTime||"")+", 이 페이지에서만 올라갑니다";
   when.textContent = whenTxt;
 }
 function tick(){
@@ -769,8 +769,8 @@ function tick(){
     var s=Math.floor((startAt-nowT)/1000), v=[["일",Math.floor(s/86400)],["시간",Math.floor(s%86400/3600)],["분",Math.floor(s%3600/60)],["초",s%60]];
     if(v[0][1]===0) v.shift();
     cd = lab+'<div class="units">'+v.map(function(x){ return '<div class="u"><div class="n">'+pad(x[1])+'</div><div class="s">'+x[0]+'</div></div>'; }).join("")+'</div>'+
-         '<div class="joinnote">🔗 입장 링크는 '+esc(L.joinOpenTime)+', 이 방에서만 올라갑니다</div>';
-  } else if(p==="join") cd = lab+'<div class="msg">곧 시작합니다 · '+remainText(startAt-nowT)+' 남음</div><div class="sub2">입장 링크가 이 방에 올라가는 시간이에요</div>';
+         '<div class="joinnote">🔗 입장 링크는 '+esc(L.joinOpenTime)+', 이 페이지에서만 올라갑니다</div>';
+  } else if(p==="join") cd = lab+'<div class="msg">곧 시작합니다 · '+remainText(startAt-nowT)+' 남음</div><div class="sub2">입장 링크가 이 페이지에 올라가는 시간이에요</div>';
   else if(p==="live") cd = lab+'<div class="msg">● 지금 라이브 중입니다</div><div class="sub2">'+esc(L.liveNote||"")+'</div>';
   else cd = '<div class="msg">특강이 종료되었습니다</div><div class="sub2">함께해 주셔서 감사합니다</div>';
   ["#cd2"].forEach(function(id){ var b=$(id); if(b) b.innerHTML=cd; });
@@ -780,7 +780,7 @@ function tick(){
   $("#stA").textContent = dateLabel(startAt)+" "+L.time+" · "+(L.channel||"");
   var Bt=$("#stB");
   if(p==="before"){ var tj=joinAt-nowT; Bt.innerHTML = tj>6*3600*1000 ? '라이브까지 <em>'+remainText(startAt-nowT)+'</em>' : '입장 링크 '+esc(L.joinOpenTime)+' 공개 · <em>'+remainText(tj)+'</em>'; }
-  else if(p==="join") Bt.innerHTML='<em>입장 링크가 이 방에 올라왔어요</em>';
+  else if(p==="join") Bt.innerHTML='<em>입장 링크가 이 페이지에 올라왔어요</em>';
   else if(p==="live") Bt.innerHTML='<em>● 지금 라이브 중</em>';
   else if(CONFIG.offer && $("#offer")) Bt.innerHTML=esc(CONFIG.offer.kicker||"")+' · <em>'+esc(CONFIG.offer.priceTo||"")+'</em>';
   else Bt.textContent="특강이 종료되었습니다";
