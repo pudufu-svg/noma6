@@ -602,6 +602,13 @@ function render(){
   h += '<div class="onair" id="onair" hidden><span class="dot"></span><b>LIVE 진행 중</b><small id="onairSub">'+esc(L.liveNote||"")+'</small></div>';
   h += '<p class="status" id="status"></p><p class="when" id="when"></p><div class="actions" id="heroActs"></div>';
   if(surveyOpen()) h += surveyHTML();
+  /* 강사 소개 — 사전 설문 바로 아래 */
+  var W = CONFIG.instructor;
+  if(W){
+    h += '<section class="block who" id="who">'+(W.photo?'<div class="who-photo"><img src="'+esc(W.photo)+'" alt="'+esc(W.name)+'" loading="lazy"></div>':'')+'<div><span class="sec-k">강사</span><h2>'+esc(W.name)+'</h2>'+
+         '<p class="role">'+esc(W.role||"")+'</p><p class="line">'+md(W.line||"")+'</p><ul class="stats">'+(W.stats||[]).map(function(s){ return '<li><b>'+esc(s.n)+'<i>'+esc(s.unit||"")+'</i></b><small>'+esc(s.label)+'</small></li>'; }).join("")+'</ul>'+
+         (W.source?'<p class="srcn">출처 · '+esc(W.source)+'</p>':'')+'</div></section>';
+  }
   if(CONFIG.offer&&CONFIG.offer.top) h += offerHTML();
   if(H.bookmark) h += '<div class="notice"><span>🔖</span><span>'+md(H.bookmark)+'</span></div>';
   h += '</header>';
@@ -637,12 +644,6 @@ function render(){
     h += '<section class="block missing reveal" id="missing"><div class="bh"><span class="ic">🚫</span>'+esc(M.heading)+'</div><ul>';
     (M.items||[]).forEach(function(m){ h += '<li><span class="q">Q</span><span>"'+esc(m.text)+'"'+(m.note?'<small>'+esc(m.note)+'</small>':'')+'</span></li>'; });
     h += '</ul><p class="mb">'+md(M.body)+'</p></section>';
-  }
-  var W = CONFIG.instructor;
-  if(W){
-    h += '<section class="block who reveal" id="who">'+(W.photo?'<div class="who-photo"><img src="'+esc(W.photo)+'" alt="'+esc(W.name)+'" loading="lazy"></div>':'')+'<div><span class="sec-k">강사</span><h2>'+esc(W.name)+'</h2>'+
-         '<p class="role">'+esc(W.role||"")+'</p><p class="line">'+md(W.line||"")+'</p><ul class="stats">'+(W.stats||[]).map(function(s){ return '<li><b>'+esc(s.n)+'<i>'+esc(s.unit||"")+'</i></b><small>'+esc(s.label)+'</small></li>'; }).join("")+'</ul>'+
-         (W.source?'<p class="srcn">출처 · '+esc(W.source)+'</p>':'')+'</div></section>';
   }
   if(V){
     h += '<section class="block live" id="live"><h2>'+esc(V.heading||"")+'</h2><ul>';
