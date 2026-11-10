@@ -622,7 +622,7 @@ function render(){
 
   /* 한눈에 보기 */
   h += '<section class="ov reveal" id="overview">'+(H.overviewKicker?'<span class="sec-k">'+esc(H.overviewKicker)+'</span>':'')+'<h2 class="sec-h2">'+md(H.title)+'</h2>'+(H.sub?'<p class="sec-sub">'+md(H.sub)+'</p>':'');
-  if(S.steps && S.steps.length){
+  if(S.steps && S.steps.length && S.chain !== false){
     h += '<p class="chain">'+S.steps.map(function(s){ return '<a href="#item-'+s.item+'" data-step="'+s.item+'">"'+esc(s.text)+'"</a>'; }).join(' <span class="ar">→</span> ')+
          (S.finale?' <span class="ar">→</span> <strong>'+esc(S.finale)+'</strong>':'')+'</p>';
   }
