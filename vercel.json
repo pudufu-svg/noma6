@@ -1,0 +1,6 @@
+{
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/:slug(start|d6|d5|d3|d1|review|dday|gift|encore)", "destination": "/index.html" }
+  ]
+}
