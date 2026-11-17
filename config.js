@@ -123,12 +123,12 @@ const CONFIG = {
 
     /* ② ------------------------------------------------------------------ */
     {
-      n: 2, kind: "전자책", when: "D-7 · 11/16(월)", date: "2026-11-16", openAt: "2026-11-16T00:00", thumb: "images/thumb-02.jpg",
+      n: 2, kind: "전자책", when: "D-6 · 11/17(화)", date: "2026-11-17", openAt: "2026-11-16T00:00", thumb: "images/thumb-02.jpg",
       title: "사전 전자책 「블로그는 끝났다는 말, 저는 15년째 듣고 있습니다」",
       cta:   { label: "전자책 PDF 열기", icon: "📕", url: "https://drive.google.com/file/d/1DpRVzYBdYO1NP4PDJjcdTiRliD3USHP5/view?usp=drive_link" },          // 7기 전자책 (구글 드라이브)
       preview: { type: "gdrive", id: "1DpRVzYBdYO1NP4PDJjcdTiRliD3USHP5", label: "이 페이지에서 바로 읽기 (19쪽)" },
       links: [
-        { label: "D-7 블로그는 끝났다는 말 저는 15년째 듣고 있습니다 7기.pdf", type: "pdf",
+        { label: "D-6 블로그는 끝났다는 말 저는 15년째 듣고 있습니다 7기.pdf", type: "pdf",
           desc: "10분이면 읽습니다", domain: "Google Drive", url: "https://drive.google.com/file/d/1DpRVzYBdYO1NP4PDJjcdTiRliD3USHP5/view?usp=drive_link" }
       ],
       guide: {
