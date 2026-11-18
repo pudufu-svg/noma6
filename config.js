@@ -72,8 +72,8 @@ const CONFIG = {
     chain: false,   // 자료 목록 위 흐름 줄("블로그가 아직 되나" → …)을 숨김. 각 카드의 따옴표 문구는 그대로 보임
     steps: [
       { item: 2, text: "블로그가 아직 되나" },
-      { item: 3, text: "내 고민은 뭔가" },
-      { item: 4, text: "체험단의 하루는 어떤가" },
+      { item: 3, text: "전부 알려드릴게요." },
+      { item: 4, text: "블로거의 하루 밀착취재" },
       { item: 5, text: "나 같은 사람도 됐나" },
       { item: 6, text: "그 증거는" },
       { item: 7, text: "검증은 됐나" }
@@ -148,7 +148,7 @@ const CONFIG = {
     /* ③ ------------------------------------------------------------------ */
     {
       n: 3, slug: "d5", kind: "Q&A", when: "D-5 · 11/18(수)", date: "2026-11-18", openAt: "2026-11-18T00:00", thumb: "images/thumb-03.jpg",
-      title: "자주 묻는 질문 Top5",
+      title: "블로그 수익화, 자주 묻는 질문 TOP5",
       /* 질문 TOP5 팝업 화면 (레퍼런스: "원장님들이 가장 많이 묻는 질문 TOP5")
        *  count 에 "173명 질문"처럼 넣으면 질문 아래에 표시됩니다 (비워 두면 안 보임)
        *  답변은 6기 고민 해결 페이지 원문, 날짜만 7기(11/23 월)로 바꿈 */
@@ -198,13 +198,13 @@ const CONFIG = {
 
     /* ④ ------------------------------------------------------------------ */
     {
-      n: 4, slug: "d3", kind: "영상", when: "D-3 · 11/20(금)", date: "2026-11-20", openAt: "2026-11-20T00:00", thumb: "images/thumb-04.jpg",
-      title: "체험단으로 사는 하루 (영상)",
-      video: { type: "youtube", id: "vGxEzU6e3OU",
-               title: "\"월100만원은 무조건입니다\" GPT로 10분만에 돈버는 글쓰기 다 알려드림" },
-      cta:   { label: "유튜브에서 크게 보기", icon: "▶", url: "https://m.site.naver.com/2i0mH" },
+      n: 4, slug: "d3", kind: "영상", when: "D-3 · 11/20(금)", date: "2026-11-20", openAt: "2026-11-20T00:00", thumb: "https://i.ytimg.com/vi/oag00sYgPh0/maxresdefault.jpg",
+      title: "당장 내일 블로그로 생활비 아끼는 법(영상 공개)",
+      video: { type: "youtube", id: "oag00sYgPh0",
+               title: "블로그 부업 현실 수익, 터무니없는 숫자 말고 월 200만 원 만든 과정 그대로" },
+      cta:   { label: "유튜브에서 크게 보기", icon: "▶", url: "https://youtu.be/oag00sYgPh0" },
       guide: {
-        time:  "약 30분 (29:52)",
+        time:  "약 26분 (25:51)",
         live:  "체험단 파트에서 이 하루가 어떤 순서로 만들어지는지 풀립니다",
         focus: "미용실 들어가는 장면. 체험단이 실제로 어떻게 시작되는지 10초 만에 보여요",
         todo:  "영상에 나온 곳 중 우리 동네에도 있을 법한 업종 하나 떠올려두기 (카페, 미용실, 식당)"
