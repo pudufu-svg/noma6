@@ -74,9 +74,9 @@ const CONFIG = {
       { item: 2, text: "블로그가 아직 되나" },
       { item: 3, text: "전부 알려드릴게요." },
       { item: 4, text: "블로거의 하루 밀착취재" },
-      { item: 5, text: "나 같은 사람도 됐나" },
-      { item: 6, text: "그 증거는" },
-      { item: 7, text: "검증은 됐나" }
+      { item: 5, text: "왕초보도 할 수 있을까?" },
+      { item: 6, text: "여러분도 가능합니다." },
+      { item: 7, text: "블로그 최강자 2인의 인터뷰" }
     ],
     finale: "그리고 7기에서, 이 순서를 처음부터 끝까지 같이 따라갑니다."
   },
@@ -269,7 +269,7 @@ const CONFIG = {
     /* ⑦ ------------------------------------------------------------------ */
     {
       n: 7, slug: "dday", kind: "영상", when: "D-day · 11/23(월)", date: "2026-11-23", openAt: "2026-11-23T00:00", thumb: "images/thumb-07.jpg",
-      title: "자청 대표님과 함께 파헤치는 '딱 1번 배워 평생 써먹는 블로그 수익화'",
+      title: "[자청X노마케터스] 딱 1번배워 평생 써먹는 블로그 수익화",
       video: { type: "link", url: "https://m.site.naver.com/2isNE", thumb: "images/thumb-07.jpg",
                title: "노마×자청 대표님 인터뷰 | 프드프",
                cloudflareId: "57b9399c4d26b5585531dacdb207a0b4" },
