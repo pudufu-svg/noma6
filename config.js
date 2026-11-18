@@ -217,7 +217,7 @@ const CONFIG = {
     /* ⑤ ------------------------------------------------------------------ */
     {
       n: 5, slug: "d1", kind: "영상", when: "D-1 · 11/22(일)", date: "2026-11-22", openAt: "2026-11-22T00:00", thumb: "images/thumb-05.jpg",
-      title: "수강생 인터뷰 (영상)",
+      title: "월 100 이상 버는 블로거는 어떻게 할까? <인터뷰 공개>",
       video: { type: "link", url: "https://m.site.naver.com/2insB", thumb: "images/thumb-05.jpg",
                title: "수강생 인터뷰 | 프드프",
                cloudflareId: "6b3e051b89c2ce855a1a9db14da3b346" },
@@ -238,7 +238,7 @@ const CONFIG = {
     /* ⑥ ------------------------------------------------------------------ */
     {
       n: 6, slug: "review", kind: "후기", when: "D-1 · 11/22(일)", date: "2026-11-22", openAt: "2026-11-22T00:00", thumb: "images/review-actionwords.jpg",
-      title: "수강생 후기",
+      title: "블로그로 돈 버는 사람들의 이야기",
       links: [
         { label: "✨️ 월 200만원 해내버렸습니다.. (서울특파원님)", type: "blog", domain: "blog.naver.com",
           desc: "노마케터스 블로그 챌린지 6주 후기, 블로그 강의 듣고 달라진 것",
@@ -269,7 +269,7 @@ const CONFIG = {
     /* ⑦ ------------------------------------------------------------------ */
     {
       n: 7, slug: "dday", kind: "영상", when: "D-day · 11/23(월)", date: "2026-11-23", openAt: "2026-11-23T00:00", thumb: "images/thumb-07.jpg",
-      title: "노마×자청 대표님 인터뷰 (영상)",
+      title: "자청 대표님과 함께 파헤치는 '딱 1번 배워 평생 써먹는 블로그 수익화'",
       video: { type: "link", url: "https://m.site.naver.com/2isNE", thumb: "images/thumb-07.jpg",
                title: "노마×자청 대표님 인터뷰 | 프드프",
                cloudflareId: "57b9399c4d26b5585531dacdb207a0b4" },
