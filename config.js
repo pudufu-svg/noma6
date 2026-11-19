@@ -184,7 +184,7 @@ const CONFIG = {
 
     /* ④ ------------------------------------------------------------------ */
     {
-      n: 4, slug: "d3", kind: "영상", when: "D-3 · 11/20(금)", date: "2026-11-20", openAt: "2026-11-20T00:00", thumb: "https://i.ytimg.com/vi/oag00sYgPh0/maxresdefault.jpg",
+      n: 4, slug: "d3", kind: "영상", when: "D-3 · 11/20(금)", date: "2026-11-20", openAt: "2026-11-20T17:50", thumb: "https://i.ytimg.com/vi/oag00sYgPh0/maxresdefault.jpg",
       title: "당장 내일 블로그로 생활비 아끼는 법(영상 공개)",
       video: { type: "youtube", id: "oag00sYgPh0",
                title: "블로그 부업 현실 수익, 터무니없는 숫자 말고 월 200만 원 만든 과정 그대로" },
@@ -202,7 +202,7 @@ const CONFIG = {
 
     /* ⑤ ------------------------------------------------------------------ */
     {
-      n: 5, slug: "d1", kind: "영상", when: "D-1 · 11/22(일)", date: "2026-11-22", openAt: "2026-11-22T00:00", thumb: "images/thumb-05.jpg",
+      n: 5, slug: "d1", kind: "영상", when: "D-1 · 11/22(일)", date: "2026-11-22", openAt: "2026-11-22T17:50", thumb: "images/thumb-05.jpg",
       title: "월 100 이상 버는 블로거는 어떻게 할까? <인터뷰 공개>",
       video: { type: "link", url: "https://m.site.naver.com/2insB", thumb: "images/thumb-05.jpg",
                title: "수강생 인터뷰 | 프드프",
@@ -223,7 +223,7 @@ const CONFIG = {
 
     /* ⑥ ------------------------------------------------------------------ */
     {
-      n: 6, slug: "review", kind: "후기", when: "D-1 · 11/22(일)", date: "2026-11-22", openAt: "2026-11-22T00:00", thumb: "images/review-actionwords.jpg",
+      n: 6, slug: "review", kind: "후기", when: "D-1 · 11/22(일)", date: "2026-11-22", openAt: "2026-11-22T17:50", thumb: "images/review-actionwords.jpg",
       title: "블로그로 돈 버는 사람들의 이야기",
       links: [
         { label: "✨️ 월 200만원 해내버렸습니다.. (서울특파원님)", type: "blog", domain: "blog.naver.com",
@@ -254,7 +254,7 @@ const CONFIG = {
 
     /* ⑦ ------------------------------------------------------------------ */
     {
-      n: 7, slug: "dday", kind: "영상", when: "D-day · 11/23(월)", date: "2026-11-23", openAt: "2026-11-23T00:00", thumb: "images/thumb-07.jpg",
+      n: 7, slug: "dday", kind: "영상", when: "D-day · 11/23(월)", date: "2026-11-23", openAt: "2026-11-23T17:50", thumb: "images/thumb-07.jpg",
       title: "[자청X노마케터스] 딱 1번배워 평생 써먹는 블로그 수익화",
       video: { type: "link", url: "https://m.site.naver.com/2isNE", thumb: "images/thumb-07.jpg",
                title: "노마×자청 대표님 인터뷰 | 프드프",
