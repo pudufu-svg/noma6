@@ -277,9 +277,9 @@ const CONFIG = {
       n: 8, slug: "gift", kind: "특강 선물", when: "11/23 무료특강 · 끝까지 계신 분께", final: true, icon: "🎁",
       openAt: "2026-11-23T19:00", veil: "비밀번호는 특강 끝에 공개", lockIcon: "🔒",
       lockedNote: "**11/23 특강을 끝까지 함께하신 분께** 드리는 선물입니다. 비밀번호는 특강 마지막에 공개합니다.",
-      title: "월 100 블로그 수익화 실전 요약집",                                   // ⚠ 6기 선물 그대로. 7기 선물·비밀번호 확인
+      title: "월 100 블로그 수익화 실전 요약집",                                   // 7기 요약집 (구글 드라이브, PDF 자체에 비밀번호)
       cta:   { label: "요약집 PDF 받기", icon: "⤓",
-               url: "files/month100-summary.pdf", download: "월 100 블로그 수익화 실전 요약집.pdf" },
+               url: "https://drive.google.com/file/d/1PoEpu569gQ-mRuhXPmypK_bIQHVLSdvq/view?usp=sharing" },
       lockNote: "비밀번호는 **11/23 특강 마지막에 공개합니다.** 끝까지 함께하신 분은 그때 받은 비밀번호로 열어보세요.",
       guide: {
         focus: "특강을 끝까지 들으셨다면, 그때 받은 비밀번호로 바로 열면 돼요"

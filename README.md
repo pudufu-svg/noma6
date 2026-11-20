@@ -12,8 +12,6 @@ D-7부터 단톡방에 드린 자료 7개 + 완주 선물 1개를 한 페이지�
 │   ├─ profile.jpg         ← 프로필 사진 (배너에서 잘라낸 것)
 │   ├─ thumb-05.jpg / thumb-07.jpg   ← 프드프 영상 썸네일
 │   └─ review-*.jpg        ← 후기 링크 카드 썸네일
-├─ files/
-│   └─ month100-summary.pdf   ← 완주 선물 PDF (파일 자체에 비밀번호 걸림)
 ├─ .nojekyll
 └─ README.md
 ```
