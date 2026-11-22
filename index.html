@@ -36,7 +36,7 @@
   --red:#ff4d4d;
   --radius:18px; --pad:20px; --spring:cubic-bezier(.2,.9,.25,1.08);
 }
-html{-webkit-text-size-adjust:100%;background:var(--bg);scroll-behavior:smooth}
+html{-webkit-text-size-adjust:100%;background:var(--bg);scroll-behavior:smooth;overflow-x:hidden}
 body{margin:0;background:var(--bg);color:var(--ink);
   font-family:"Pretendard Variable","Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,-apple-system,sans-serif;
   font-size:17px;line-height:1.75;-webkit-font-smoothing:antialiased;padding-bottom:86px}
@@ -51,7 +51,7 @@ mark{background:linear-gradient(transparent 55%,rgba(255,216,77,.38) 55%);color:
 [id^="item-"],#live,#missing{scroll-margin-top:16px}
 
 /* ── 히어로: 배너 + 큰 카운트다운 ────────────────────── */
-.hero{position:relative;padding:22px 0 0;isolation:isolate}
+.hero{position:relative;padding:22px 0 0;isolation:isolate;overflow-x:clip}   /* 배경 빛(.glow)이 화면 밖으로 넘쳐 휴대폰에서 페이지·팝업 폭이 넓어지는 것 방지 */
 .glow{position:absolute;left:50%;top:-220px;width:900px;height:900px;max-width:170vw;max-height:170vw;border-radius:50%;transform:translateX(-50%);
   background:radial-gradient(circle,rgba(3,199,90,.40) 0%,rgba(3,120,60,.16) 34%,rgba(3,120,60,0) 62%);z-index:-1;pointer-events:none;animation:bloom 1.6s cubic-bezier(.2,.7,.2,1) forwards}
 @keyframes bloom{0%{transform:translateX(-50%) scale(.55);opacity:.2}55%{transform:translateX(-50%) scale(1.12);opacity:1}100%{transform:translateX(-50%) scale(1);opacity:.85}}
