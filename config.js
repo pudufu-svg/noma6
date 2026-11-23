@@ -42,7 +42,8 @@ const CONFIG = {
     durationMin: 180,                          // 19:00~22:00 를 '라이브 중'으로 표시 (21시 이후 연장돼도 '끝났습니다'가 안 뜨게)
     channel:     "유튜브 라이브",
     joinOpenTime:"18:50",
-    youtube:     "",                          // TODO: 유튜브 라이브 주소(또는 영상 ID). 넣으면 상단 화면에서 바로 재생 + '유튜브에서 보기' 버튼
+    youtube:     "baREG1c8SAY",               // 유튜브 라이브 영상 ID (pudufu.co.kr/live/673 이 이 영상으로 연결됨) → 상단 화면에서 바로 재생
+    liveUrl:     "https://pudufu.co.kr/live/673?share=group",   // '유튜브에서 보기 · 채팅 참여' 버튼이 여는 주소
     joinUrl:     "",                          // TODO: 7기 라이브 페이지 주소 (6기는 https://pudufu.co.kr/live/673). 넣으면 18:50부터 입장 버튼이 생김
     joinLabel:   "유튜브 라이브 입장하기",
     liveNote:    "실시간 1회 · 다시보기 없음"

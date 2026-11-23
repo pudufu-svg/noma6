@@ -623,7 +623,7 @@ function storyFor(n){ var s=(CONFIG.story&&CONFIG.story.steps)||[]; for(var i=0;
 function ytId(s){ s=String(s||"").trim(); var m=s.match(/(?:youtu\.be\/|[?&]v=|\/live\/|\/embed\/|\/shorts\/)([\w-]{11})/); return m ? m[1] : (/^[\w-]{11}$/.test(s) ? s : ""); }
 var YT_SRC = Q.get("yt") || L.youtube || "";                      /* ?yt=영상주소 로 미리보기 가능 */
 var YT = ytId(YT_SRC);
-var YT_URL = YT ? (/^https?:/.test(YT_SRC) ? YT_SRC : "https://www.youtube.com/watch?v="+YT) : "";
+var YT_URL = YT ? (L.liveUrl || (/^https?:/.test(YT_SRC) ? YT_SRC : "https://www.youtube.com/watch?v="+YT)) : "";
 function liveTimeText(){ var t=String(L.time).split(":"), hh=+t[0], mm=+t[1]; return (hh<12?"오전 ":"저녁 ")+((hh%12)||12)+"시"+(mm?" "+mm+"분":""); }
 function tileHTML(it, i){
   var isVid = !!it.video, nw = isNewItem(it), st = storyFor(it.n), lk = isLocked(it);
