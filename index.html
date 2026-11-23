@@ -98,6 +98,15 @@ mark{background:linear-gradient(transparent 55%,rgba(255,216,77,.38) 55%);color:
 .pph .pbtn{width:62px;height:62px;margin:4px 0 2px;border-radius:50%;display:grid;place-items:center;padding-left:5px;font-size:22px;color:#fff;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 2px rgba(255,255,255,.22)}
 .pph b{font-size:clamp(19px,5.2vw,27px);font-weight:900;letter-spacing:-.035em;line-height:1.25;word-break:keep-all}
 .pph small{font-size:13.5px;color:var(--ink-2);word-break:keep-all;line-height:1.5}
+.plink{display:block;color:#fff;text-decoration:none}
+.plink img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .4s var(--spring)}
+.plink .pov{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.55))}
+.plink .lvb{position:absolute;left:12px;top:12px}
+.plink .ytb{width:74px;height:52px;border-radius:14px;background:#ff0033;display:grid;place-items:center;padding-left:4px;font-size:22px;box-shadow:0 12px 30px -8px rgba(255,0,51,.8);transition:transform .2s var(--spring)}
+.plink small{padding:6px 12px;border-radius:999px;background:rgba(0,0,0,.6);font-size:13.5px;font-weight:800;word-break:keep-all}
+.plink:hover img{transform:scale(1.03)}.plink:hover .ytb{transform:scale(1.08)}
+.lvb{display:inline-flex;align-items:center;gap:7px;height:26px;padding:0 11px;border-radius:7px;background:var(--red);color:#fff;font-size:12.5px;font-weight:900;letter-spacing:.08em}
+.lvb::before{content:"";width:7px;height:7px;border-radius:50%;background:#fff;animation:blink 1.3s infinite}
 .hero .player{opacity:0;transform:translateY(14px);animation:rise .6s var(--spring) forwards;animation-delay:.2s}
 .hero.settled .pill,.hero.settled .banner,.hero.settled .chip,.hero.settled .status,.hero.settled .when,.hero.settled .player{animation:none;opacity:1;transform:none}
 
@@ -729,9 +738,12 @@ function render(target){
   if(B.banner) h += '<figure class="banner"><img src="'+esc(B.banner)+'" alt="'+esc(B.bannerAlt||"")+'" onerror="this.parentNode.remove()"></figure>';
   h += '<p class="chip" id="chip">무료 LIVE · '+esc(dLabel)+' '+esc(liveTimeText())+' · '+esc(L.channel||"")+'</p>';
   /* 라이브 화면 — lecture.youtube 를 넣으면 여기서 바로 재생, 비어 있으면 안내 화면 */
-  h += '<div class="player" id="player">'+(YT
-        ? '<iframe src="https://www.youtube.com/embed/'+encodeURIComponent(YT)+'?rel=0&playsinline=1&modestbranding=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen title="'+esc(L.title||"유튜브 라이브")+'"></iframe>'
-        : '<div class="pph"><span class="lvb">LIVE</span><span class="pbtn">▶</span><b>'+esc(dLabel)+' '+esc(liveTimeText())+'</b><small id="pphSub">이 화면에서 바로 라이브가 시작됩니다</small></div>')+'</div>';
+  /* 누르면 유튜브(라이브 링크)로 이동 — 영상은 페이지에 넣지 않음 */
+  h += YT
+    ? '<a class="player plink" id="player" href="'+esc(YT_URL)+'" target="_blank" rel="noopener" data-ytout aria-label="유튜브에서 라이브 보기">'+
+      '<img src="https://i.ytimg.com/vi/'+encodeURIComponent(YT)+'/maxresdefault.jpg" alt="" onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/'+encodeURIComponent(YT)+'/hqdefault.jpg\'">'+
+      '<span class="pov"><span class="lvb">LIVE</span><span class="ytb">▶</span><small>누르면 유튜브에서 바로 볼 수 있어요 ↗</small></span></a>'
+    : '<div class="player" id="player"><div class="pph"><span class="lvb">LIVE</span><span class="pbtn">▶</span><b>'+esc(dLabel)+' '+esc(liveTimeText())+'</b><small id="pphSub">이 화면에서 바로 라이브가 시작됩니다</small></div></div>';
   h += '<p class="status" id="status"></p><p class="when" id="when"></p><div class="actions" id="heroActs"></div>';
   if(surveyOpen()) h += surveyHTML();
   /* 강사 소개 — 사전 설문 바로 아래 */
@@ -962,10 +974,10 @@ function heroTick(p, t){
   chip.textContent = p==="live" ? "지금 LIVE 중 · "+(L.channel||"") : "무료 LIVE · "+dateLabel(startAt)+" "+liveTimeText()+" · "+(L.channel||"");
   status.classList.toggle("open", on);
   if(p==="before") status.textContent = "🔴 "+liveTimeText()+", 위 화면에서 바로 라이브가 시작돼요";
-  else if(p==="join") status.textContent = YT ? "곧 시작해요 · 화면의 ▶ 를 눌러 기다려 주세요" : "곧 시작해요 · 라이브 화면이 이 자리에 올라옵니다";
-  else if(p==="live") status.textContent = YT ? "● 지금 라이브 중 · 화면의 ▶ 를 눌러 시청하세요" : "● 지금 라이브 중 · 라이브 화면이 곧 올라옵니다";
+  else if(p==="join") status.textContent = YT ? "곧 시작해요 · 위 화면의 ▶ 를 누르면 유튜브로 이동해요" : "곧 시작해요 · 라이브 화면이 이 자리에 올라옵니다";
+  else if(p==="live") status.textContent = YT ? "● 지금 라이브 중 · 위 화면의 ▶ 를 눌러 유튜브에서 시청하세요" : "● 지금 라이브 중 · 라이브 화면이 곧 올라옵니다";
   else status.textContent = "라이브가 끝났습니다. 함께해 주셔서 감사합니다.";
-  when.textContent = p==="after" ? (L.liveNote ? "다시보기는 없습니다" : "") : on ? "소리가 안 나면 화면 속 🔇 를 눌러 주세요"+(YT?" · 채팅은 유튜브에서":"") : remainText(startAt-t)+" 남음 · "+(L.liveNote||"");
+  when.textContent = p==="after" ? (L.liveNote ? "다시보기는 없습니다" : "") : on ? (YT ? "유튜브에서 채팅도 함께 참여하실 수 있어요" : "") : remainText(startAt-t)+" 남음 · "+(L.liveNote||"");
   if(sub) sub.textContent = p==="before" ? "이 화면에서 바로 라이브가 시작됩니다" : p==="after" ? "라이브가 끝났습니다" : "라이브 화면을 준비하고 있어요";
 }
 function tick(){
@@ -997,7 +1009,7 @@ function tick(){
   if(p!==lastPhase){
     lastPhase=p;
     var on=(p==="join"||p==="live");
-    var ytBtn = YT_URL ? '<a class="btn'+(on?'':' ghost')+'" href="'+esc(YT_URL)+'" target="_blank" rel="noopener" data-ytout>▶ 유튜브에서 보기 · 채팅 참여 ↗</a>' : '';
+    var ytBtn = YT_URL ? '<a class="btn'+(on?'':' ghost')+'" href="'+esc(YT_URL)+'" target="_blank" rel="noopener" data-ytout>▶ 유튜브에서 라이브 보기 ↗</a>' : '';
     var acts = p==="after" ? "" : ytBtn + (p==="before" ? '<button class="btn ghost" type="button" data-copy>🔖 링크 저장</button>' : "");
     ["#heroActs","#liveActs"].forEach(function(id){ var b=$(id); if(b) b.innerHTML=acts; });
     $("#stBtn").innerHTML = on ? '<a class="btn" href="#top">▶ 라이브 보기</a>' : (p==="before" ? (surveyOpen() ? '<a class="btn" href="'+esc(CONFIG.survey.url)+'" target="_blank" rel="noopener" data-survey>'+esc(CONFIG.survey.short||"설문 참여")+'</a>' : '<a class="btn" href="#top">라이브 화면</a>') : ($("#offer") ? '<a class="btn" href="'+esc(CONFIG.offer.url)+'" target="_blank" rel="noopener" data-offer>'+esc(CONFIG.offer.short||"신청하기")+'</a>' : ''));
