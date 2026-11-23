@@ -89,6 +89,30 @@ mark{background:linear-gradient(transparent 55%,rgba(255,216,77,.38) 55%);color:
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s var(--spring)}
 .reveal.in{opacity:1;transform:none}
 
+/* ── 히어로: 유튜브 라이브 화면 (카운트다운 대신) ─────────── */
+.player{position:relative;margin-top:14px;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000;box-shadow:inset 0 0 0 1px var(--line-2),0 24px 54px -22px rgba(3,199,90,.6)}
+.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.pph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:18px;text-align:center;background:radial-gradient(120% 90% at 50% 35%,#18402a 0%,#0c110e 62%,#070908 100%)}
+.pph .lvb{display:inline-flex;align-items:center;gap:7px;height:26px;padding:0 11px;border-radius:7px;background:var(--red);color:#fff;font-size:12.5px;font-weight:900;letter-spacing:.08em}
+.pph .lvb::before{content:"";width:7px;height:7px;border-radius:50%;background:#fff;animation:blink 1.3s infinite}
+.pph .pbtn{width:62px;height:62px;margin:4px 0 2px;border-radius:50%;display:grid;place-items:center;padding-left:5px;font-size:22px;color:#fff;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 2px rgba(255,255,255,.22)}
+.pph b{font-size:clamp(19px,5.2vw,27px);font-weight:900;letter-spacing:-.035em;line-height:1.25;word-break:keep-all}
+.pph small{font-size:13.5px;color:var(--ink-2);word-break:keep-all;line-height:1.5}
+.hero .player{opacity:0;transform:translateY(14px);animation:rise .6s var(--spring) forwards;animation-delay:.2s}
+.hero.settled .pill,.hero.settled .banner,.hero.settled .chip,.hero.settled .status,.hero.settled .when,.hero.settled .player{animation:none;opacity:1;transform:none}
+
+/* ── 자료 아래 큰 신청 버튼 (data-from 시각부터 표시) ─────── */
+.endcta{margin:18px 0 0}
+.bigcta{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;min-height:62px;padding:15px 20px;border-radius:16px;overflow:hidden;
+  background:linear-gradient(180deg,#14e070,var(--green) 55%,var(--green-d));color:#04170c;text-decoration:none;text-align:center;
+  font-size:17.5px;font-weight:900;letter-spacing:-.03em;line-height:1.35;word-break:keep-all;
+  box-shadow:0 18px 40px -16px rgba(3,199,90,.95),inset 0 1px 0 rgba(255,255,255,.35);animation:ctaglow 2.2s ease-in-out infinite}
+.bigcta::after{content:"";position:absolute;top:0;bottom:0;left:-40%;width:30%;background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.45),rgba(255,255,255,0));transform:skewX(-18deg);animation:shine 2.8s ease-in-out infinite}
+.bigcta .ar{flex:0 0 auto;font-size:20px}
+.bigcta:hover{filter:brightness(1.06)}
+@keyframes shine{0%,55%{left:-40%}100%{left:130%}}
+@keyframes ctaglow{50%{box-shadow:0 22px 50px -14px rgba(3,199,90,1),inset 0 1px 0 rgba(255,255,255,.35)}}
+
 /* ── 앵콜 안내 ───────────────────────────────────────── */
 .encore{margin:26px 0 0;border-radius:var(--radius);padding:22px 20px;background:linear-gradient(160deg,#143522 0%,var(--surface) 70%);box-shadow:inset 0 0 0 1.5px rgba(3,199,90,.5)}
 .encore h2{margin:6px 0 12px;font-size:22px;font-weight:900;letter-spacing:-.035em;line-height:1.35;word-break:keep-all}
@@ -596,6 +620,10 @@ function videoHTML(v, n){
 }
 function storyFor(n){ var s=(CONFIG.story&&CONFIG.story.steps)||[]; for(var i=0;i<s.length;i++) if(s[i].item===n) return s[i].text; return ""; }
 
+function ytId(s){ s=String(s||"").trim(); var m=s.match(/(?:youtu\.be\/|[?&]v=|\/live\/|\/embed\/|\/shorts\/)([\w-]{11})/); return m ? m[1] : (/^[\w-]{11}$/.test(s) ? s : ""); }
+var YT_SRC = Q.get("yt") || L.youtube || "";                      /* ?yt=영상주소 로 미리보기 가능 */
+var YT = ytId(YT_SRC);
+var YT_URL = YT ? (/^https?:/.test(YT_SRC) ? YT_SRC : "https://www.youtube.com/watch?v="+YT) : "";
 function liveTimeText(){ var t=String(L.time).split(":"), hh=+t[0], mm=+t[1]; return (hh<12?"오전 ":"저녁 ")+((hh%12)||12)+"시"+(mm?" "+mm+"분":""); }
 function tileHTML(it, i){
   var isVid = !!it.video, nw = isNewItem(it), st = storyFor(it.n), lk = isLocked(it);
@@ -688,22 +716,22 @@ function itemHTML(it, i){
 
   h += bodyHTML(it, false);
   h += '<div class="ifoot"><button class="chk" type="button" aria-pressed="false" data-n="'+it.n+'"><span class="bx"></span>봤어요</button>';
-  h += next ? '<a class="nextl" href="#item-'+next.n+'">다음 '+CIRC[next.n]+' ↓</a>' : '<a class="nextl" href="#live">오늘 라이브 안내 ↓</a>';
+  h += next ? '<a class="nextl" href="#item-'+next.n+'">다음 '+CIRC[next.n]+' ↓</a>' : '<a class="nextl" href="#top">라이브 화면 ↑</a>';
   h += '</div></div></section>';
   return h;
 }
 
-function render(){
+function render(target){
   var H = CONFIG.hero || {}, S = CONFIG.story || {}, G = CONFIG.guide || {}, M = CONFIG.missing, V = CONFIG.live, h = '';
   var dLabel = dateLabel(startAt);
   h += '<div class="wrap"><header class="hero" id="top"><div class="glow" aria-hidden="true"></div>';
   if(H.kicker) h += '<p class="pill">'+esc(H.kicker)+'</p>';
   if(B.banner) h += '<figure class="banner"><img src="'+esc(B.banner)+'" alt="'+esc(B.bannerAlt||"")+'" onerror="this.parentNode.remove()"></figure>';
   h += '<p class="chip" id="chip">무료 LIVE · '+esc(dLabel)+' '+esc(liveTimeText())+' · '+esc(L.channel||"")+'</p>';
-  h += '<div class="count" id="count" role="timer" aria-live="off">'+[["d","일"],["h","시간"],["m","분"],["s","초"]].map(function(u,i){
-         return '<div class="unit'+(u[0]==="s"?" sec":"")+'" data-unit="'+u[0]+'" style="--i:'+i+'"><div class="digits" data-u="'+u[0]+'"></div><span class="ul">'+u[1]+'</span>'+(u[0]==="s"?'<i class="tickbar" id="tickbar"></i>':'')+'</div>';
-       }).join("")+'</div>';
-  h += '<div class="onair" id="onair" hidden><span class="dot"></span><b>LIVE 진행 중</b><small id="onairSub">'+esc(L.liveNote||"")+'</small></div>';
+  /* 라이브 화면 — lecture.youtube 를 넣으면 여기서 바로 재생, 비어 있으면 안내 화면 */
+  h += '<div class="player" id="player">'+(YT
+        ? '<iframe src="https://www.youtube.com/embed/'+encodeURIComponent(YT)+'?rel=0&playsinline=1&modestbranding=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen title="'+esc(L.title||"유튜브 라이브")+'"></iframe>'
+        : '<div class="pph"><span class="lvb">LIVE</span><span class="pbtn">▶</span><b>'+esc(dLabel)+' '+esc(liveTimeText())+'</b><small id="pphSub">이 화면에서 바로 라이브가 시작됩니다</small></div>')+'</div>';
   h += '<p class="status" id="status"></p><p class="when" id="when"></p><div class="actions" id="heroActs"></div>';
   if(surveyOpen()) h += surveyHTML();
   /* 강사 소개 — 사전 설문 바로 아래 */
@@ -742,7 +770,7 @@ function render(){
   }
   var openN = ITEMS.filter(function(it){ return !isLocked(it); }).length, lockN = ITEMS.length - openN;
   h += '<div class="prog" aria-live="polite"'+(openN?'':' hidden')+'><span><b id="progN">0</b> / '+openN+'개 확인'+(lockN?' · 🔒 '+lockN+'개는 아직 잠김':'')+'</span><div class="bar"><i id="progBar"></i></div></div>';
-  h += '<div class="items">'; ITEMS.forEach(function(it,i){ h += itemHTML(it,i); }); h += '</div>';
+  h += '<div class="items">'; ITEMS.forEach(function(it,i){ h += itemHTML(it,i); if(it.after && it.after.url) h += endCtaHTML(it.after); }); h += '</div>';
 
   if(M && shown(M)){
     h += '<section class="block missing reveal" id="missing"><div class="bh"><span class="ic">🚫</span>'+esc(M.heading)+'</div><ul>';
@@ -765,7 +793,27 @@ function render(){
   h += '<div class="stick" id="stick"><div class="in"><div class="txt"><div class="a" id="stA"></div><div class="b" id="stB"></div></div><span id="stBtn"></span></div></div>';
   h += '<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="mTitle"><div class="mbg" data-close></div><div class="mpanel" id="mpanel"></div></div>';
   h += '<div class="toast" id="toast" role="status" aria-live="polite"></div>';
-  $("#app").innerHTML = h;
+  (target || $("#app")).innerHTML = h;
+}
+
+/* 잠긴 자료가 열릴 때 — 라이브 화면(iframe)은 그대로 두고 나머지만 새로 그림 (영상 끊김 방지) */
+function softRender(){
+  ITEMS = CONFIG.items.filter(shown);
+  var tmp = document.createElement("div"); render(tmp);
+  var oldWrap = $("#app > .wrap"), newWrap = tmp.firstElementChild, oldHero = $("#top"), oldP = $("#player");
+  var newHero = newWrap.querySelector("#top"), newP = newHero.querySelector("#player");
+  Array.prototype.slice.call(oldHero.childNodes).forEach(function(n){ if(n !== oldP) n.remove(); });
+  var before = true;
+  Array.prototype.slice.call(newHero.childNodes).forEach(function(n){ if(n === newP){ before = false; return; } if(before) oldHero.insertBefore(n, oldP); else oldHero.appendChild(n); });
+  Array.prototype.slice.call(oldWrap.children).forEach(function(n){ if(n !== oldHero) n.remove(); });
+  Array.prototype.slice.call(newWrap.children).forEach(function(n){ if(n !== newHero) oldWrap.appendChild(n); });
+  $$(".reveal").forEach(function(n){ n.classList.add("in"); });
+  applySeen(); applyRoute(state.route||null, false); watchStick(); lastPhase = null;
+}
+function endCtaHTML(c){
+  var t = at(c.showFrom);
+  return '<div class="endcta" data-from="'+esc(c.showFrom||"")+'"'+(t && now()<t ? ' hidden' : '')+'><a class="bigcta" href="'+esc(c.url)+'" target="_blank" rel="noopener" data-endcta>'+
+         '<span>'+esc(c.label)+'</span><span class="ar">→</span></a></div>';
 }
 
 /* 4. 상태 ---------------------------------------------------------------- */
@@ -883,13 +931,20 @@ function bind(){
     if((t=e.target.closest("[data-open]"))){ var k=+t.dataset.open; markSeen(k); track("resource_open",{item:k,url:t.href}); return; }
     if(e.target.closest("[data-copy]")){ copyLink(); return; }
     if(e.target.closest("[data-offer]")){ track("offer_click"); return; }
+    if(e.target.closest("[data-endcta]")){ track("endcta_click"); return; }
+    if(e.target.closest("[data-ytout]")){ track("live_youtube_out"); return; }
     if(e.target.closest("[data-survey]")){ track("survey_click"); return; }
   });
   document.addEventListener("keydown", function(e){ if(e.key==="Escape" && current) closeItem(); });
-  /* 히어로 타이머가 화면에서 사라지면 하단 바 표시 */
-  if("IntersectionObserver" in window){
-    new IntersectionObserver(function(es){ es.forEach(function(x){ $("#stick").classList.toggle("show", !x.isIntersecting); }); },{threshold:0}).observe($("#status"));
-  } else $("#stick").classList.add("show");
+  watchStick();
+}
+/* 히어로 라이브 화면 아래 안내가 화면에서 사라지면 하단 바 표시 */
+var stickIO = null;
+function watchStick(){
+  if(!("IntersectionObserver" in window)){ $("#stick").classList.add("show"); return; }
+  if(stickIO) stickIO.disconnect();
+  stickIO = new IntersectionObserver(function(es){ es.forEach(function(x){ $("#stick").classList.toggle("show", !x.isIntersecting); }); },{threshold:0});
+  stickIO.observe($("#status"));
 }
 function copyLink(){
   var url=location.href.split("#")[0];
@@ -901,36 +956,23 @@ function copyLink(){
 /* 5. 카운트다운 ---------------------------------------------------------- */
 var lastPhase=null, lastSig=null;
 function joinBtn(cls,label){ return L.joinUrl ? '<a class="'+cls+'" href="'+esc(L.joinUrl)+'" target="_blank" rel="noopener">'+esc(label||L.joinLabel||"입장하기")+'</a>' : ''; }
-var lastSec=-1, startAtHero=null;
 function heroTick(p, t){
-  var count=$("#count"), onair=$("#onair"), status=$("#status"), when=$("#when");
-  var whenTxt = dateLabel(startAt)+" "+liveTimeText()+" · "+(L.channel||"")+(L.liveNote?" · "+L.liveNote:"");
-  var OF=CONFIG.offer, ofu=OF&&OF.url&&OF.until?kst(OF.until.slice(0,10),OF.until.slice(11,16)):null;
-  if(p==="after" && ofu && t<ofu){ startAtHero=ofu;
-    $("#chip").textContent = esc(OF.kicker||"")+" · "+dateLabel(ofu)+" 자정 마감";
-    status.classList.add("open"); status.textContent="할인 마감까지 남은 시간"; when.textContent=(OF.priceFrom?OF.priceFrom+" → ":"")+(OF.priceTo||"");
-  } else if(p==="after"){ count.hidden=true; onair.hidden=true; status.classList.remove("open"); status.textContent="라이브가 끝났습니다. 함께해 주셔서 감사합니다."; when.textContent="다시보기는 없습니다"; return; }
-  else if(p==="live"){ count.hidden=true; onair.hidden=false; status.classList.add("open"); status.textContent = L.joinUrl ? "지금 입장하세요" : "입장 링크는 이 페이지에 있어요"; when.textContent=whenTxt; return; }
-  else startAtHero=startAt;
-  count.hidden=false; onair.hidden=true;
-  var sec=Math.max(0,Math.floor((startAtHero-t)/1000));
-  if(sec!==lastSec){
-    lastSec=sec;
-    var d=Math.floor(sec/86400);
-    $('.unit[data-unit="d"]').hidden = d===0; count.style.setProperty("--cols", d===0?3:4);
-    setUnit("d",d); setUnit("h",Math.floor(sec/3600)%24); setUnit("m",Math.floor(sec/60)%60); setUnit("s",sec%60);
-    var tb=$("#tickbar"); if(tb && !REDUCE){ tb.classList.remove("go"); void tb.offsetWidth; tb.classList.add("go"); }
-  }
-  if(p==="after") return;
-  var open = p==="join";
-  status.classList.toggle("open", open);
-  status.textContent = open ? "🔗 입장 링크가 이 페이지에 올라왔어요" : "🔗 입장 링크는 "+(L.joinOpenTime||"")+", 이 페이지에서만 올라갑니다";
-  when.textContent = whenTxt;
+  var status=$("#status"), when=$("#when"), chip=$("#chip"), sub=$("#pphSub");
+  var on = p==="join" || p==="live";
+  chip.textContent = p==="live" ? "지금 LIVE 중 · "+(L.channel||"") : "무료 LIVE · "+dateLabel(startAt)+" "+liveTimeText()+" · "+(L.channel||"");
+  status.classList.toggle("open", on);
+  if(p==="before") status.textContent = "🔴 "+liveTimeText()+", 위 화면에서 바로 라이브가 시작돼요";
+  else if(p==="join") status.textContent = YT ? "곧 시작해요 · 화면의 ▶ 를 눌러 기다려 주세요" : "곧 시작해요 · 라이브 화면이 이 자리에 올라옵니다";
+  else if(p==="live") status.textContent = YT ? "● 지금 라이브 중 · 화면의 ▶ 를 눌러 시청하세요" : "● 지금 라이브 중 · 라이브 화면이 곧 올라옵니다";
+  else status.textContent = "라이브가 끝났습니다. 함께해 주셔서 감사합니다.";
+  when.textContent = p==="after" ? (L.liveNote ? "다시보기는 없습니다" : "") : on ? "소리가 안 나면 화면 속 🔇 를 눌러 주세요"+(YT?" · 채팅은 유튜브에서":"") : remainText(startAt-t)+" 남음 · "+(L.liveNote||"");
+  if(sub) sub.textContent = p==="before" ? "이 화면에서 바로 라이브가 시작됩니다" : p==="after" ? "라이브가 끝났습니다" : "라이브 화면을 준비하고 있어요";
 }
 function tick(){
   var p=phase(), nowT=now(), cd;
   /* 잠긴 자료가 열리는 순간(또는 설문 마감) 페이지를 새로 그림 */
-  var sig=lockSig(); if(lastSig===null) lastSig=sig; else if(sig!==lastSig){ lastSig=sig; if(!Q.get("now")){ location.reload(); return; } }
+  var sig=lockSig(); if(lastSig===null) lastSig=sig; else if(sig!==lastSig){ lastSig=sig; if(!Q.get("now")){ if(YT && $("#player iframe")) softRender(); else { location.reload(); return; } } }
+  $$("[data-from]").forEach(function(el){ var f=at(el.dataset.from); el.hidden = !!(f && nowT<f); });
   var lab='<div class="lab"><span class="lv">LIVE</span>'+dateLabel(startAt)+' '+esc(L.time)+' · '+esc(L.channel||"")+'</div>';
   if(p==="before"){
     var s=Math.floor((startAt-nowT)/1000), v=[["일",Math.floor(s/86400)],["시간",Math.floor(s%86400/3600)],["분",Math.floor(s%3600/60)],["초",s%60]];
@@ -946,18 +988,19 @@ function tick(){
 
   $("#stA").textContent = dateLabel(startAt)+" "+L.time+" · "+(L.channel||"");
   var Bt=$("#stB");
-  if(p==="before"){ var tj=joinAt-nowT; Bt.innerHTML = tj>6*3600*1000 ? '라이브까지 <em>'+remainText(startAt-nowT)+'</em>' : '입장 링크 '+esc(L.joinOpenTime)+' 공개 · <em>'+remainText(tj)+'</em>'; }
-  else if(p==="join") Bt.innerHTML='<em>입장 링크가 이 페이지에 올라왔어요</em>';
+  if(p==="before") Bt.innerHTML = '라이브까지 <em>'+remainText(startAt-nowT)+'</em>';
+  else if(p==="join") Bt.innerHTML='<em>곧 라이브가 시작돼요</em>';
   else if(p==="live") Bt.innerHTML='<em>● 지금 라이브 중</em>';
   else if(CONFIG.offer && $("#offer")) Bt.innerHTML=esc(CONFIG.offer.kicker||"")+' · <em>'+esc(CONFIG.offer.priceTo||"")+'</em>';
   else Bt.textContent="특강이 종료되었습니다";
 
   if(p!==lastPhase){
     lastPhase=p;
-    var showJoin=(p==="join"||p==="live") && L.joinUrl;
-    var acts = p==="after" ? "" : (showJoin?joinBtn("btn"):"") + (p==="before" ? '<button class="btn ghost" type="button" data-copy>🔖 링크 저장</button>' : "");
+    var on=(p==="join"||p==="live");
+    var ytBtn = YT_URL ? '<a class="btn'+(on?'':' ghost')+'" href="'+esc(YT_URL)+'" target="_blank" rel="noopener" data-ytout>▶ 유튜브에서 보기 · 채팅 참여 ↗</a>' : '';
+    var acts = p==="after" ? "" : ytBtn + (p==="before" ? '<button class="btn ghost" type="button" data-copy>🔖 링크 저장</button>' : "");
     ["#heroActs","#liveActs"].forEach(function(id){ var b=$(id); if(b) b.innerHTML=acts; });
-    $("#stBtn").innerHTML = showJoin ? joinBtn("btn","입장하기") : (p==="before" ? (surveyOpen() ? '<a class="btn" href="'+esc(CONFIG.survey.url)+'" target="_blank" rel="noopener" data-survey>'+esc(CONFIG.survey.short||"설문 참여")+'</a>' : '<a class="btn" href="#top">타이머 보기</a>') : ($("#offer") ? '<a class="btn" href="'+esc(CONFIG.offer.url)+'" target="_blank" rel="noopener" data-offer>'+esc(CONFIG.offer.short||"신청하기")+'</a>' : ''));
+    $("#stBtn").innerHTML = on ? '<a class="btn" href="#top">▶ 라이브 보기</a>' : (p==="before" ? (surveyOpen() ? '<a class="btn" href="'+esc(CONFIG.survey.url)+'" target="_blank" rel="noopener" data-survey>'+esc(CONFIG.survey.short||"설문 참여")+'</a>' : '<a class="btn" href="#top">라이브 화면</a>') : ($("#offer") ? '<a class="btn" href="'+esc(CONFIG.offer.url)+'" target="_blank" rel="noopener" data-offer>'+esc(CONFIG.offer.short||"신청하기")+'</a>' : ''));
   }
 }
 
@@ -965,7 +1008,7 @@ function tick(){
 try{
   document.title=(CONFIG.hero&&CONFIG.hero.kicker)||"자료 모아보기";
   render();
-  ["d","h","m","s"].forEach(function(u){ var box=$('.digits[data-u="'+u+'"]'); UNITS[u]=[new Digit(box), new Digit(box)]; });
+  setTimeout(function(){ var hr=$("#top"); if(hr) hr.classList.add("settled"); }, 1500);   /* 첫 등장 애니메이션 후 고정 (softRender 때 다시 깜빡이지 않게) */
   bind(); applySeen(); applyRoute(state.route||null,false);
   tick(); setInterval(tick,250);
   if("IntersectionObserver" in window){

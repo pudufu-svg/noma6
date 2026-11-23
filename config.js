@@ -39,9 +39,10 @@ const CONFIG = {
     title:       "딱 1번 배워 평생 월 100 버는 블로그 수익화",
     date:        "2026-11-23",                // 7기 1차 무료특강
     time:        "19:00",
-    durationMin: 120,
+    durationMin: 180,                          // 19:00~22:00 를 '라이브 중'으로 표시 (21시 이후 연장돼도 '끝났습니다'가 안 뜨게)
     channel:     "유튜브 라이브",
     joinOpenTime:"18:50",
+    youtube:     "",                          // TODO: 유튜브 라이브 주소(또는 영상 ID). 넣으면 상단 화면에서 바로 재생 + '유튜브에서 보기' 버튼
     joinUrl:     "",                          // TODO: 7기 라이브 페이지 주소 (6기는 https://pudufu.co.kr/live/673). 넣으면 18:50부터 입장 버튼이 생김
     joinLabel:   "유튜브 라이브 입장하기",
     liveNote:    "실시간 1회 · 다시보기 없음"
@@ -280,6 +281,9 @@ const CONFIG = {
       title: "월 100 블로그 수익화 실전 요약집",                                   // 7기 요약집 (구글 드라이브, PDF 자체에 비밀번호)
       cta:   { label: "요약집 PDF 받기", icon: "⤓",
                url: "https://drive.google.com/file/d/1PoEpu569gQ-mRuhXPmypK_bIQHVLSdvq/view?usp=sharing" },
+      after: { label: "블로그 수익화 7기, 라이브 혜택가로 합류하기",          // ⑧ 섹션 바로 아래 큰 버튼
+               url:   "https://m.site.naver.com/2lDv1",
+               showFrom: "2026-11-23T21:00" },                              // 이 시각부터 보임 (새로고침 없이 자동으로 나타남)
       lockNote: "비밀번호는 **11/23 특강 마지막에 공개합니다.** 끝까지 함께하신 분은 그때 받은 비밀번호로 열어보세요.",
       guide: {
         focus: "특강을 끝까지 들으셨다면, 그때 받은 비밀번호로 바로 열면 돼요"
