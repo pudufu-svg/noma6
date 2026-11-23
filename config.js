@@ -282,7 +282,7 @@ const CONFIG = {
       title: "월 100 블로그 수익화 실전 요약집",                                   // 7기 요약집 (구글 드라이브, PDF 자체에 비밀번호)
       cta:   { label: "요약집 PDF 받기", icon: "⤓",
                url: "https://drive.google.com/file/d/1PoEpu569gQ-mRuhXPmypK_bIQHVLSdvq/view?usp=sharing" },
-      after: { label: "블로그 수익화 7기, 라이브 혜택가로 합류하기",          // ⑧ 섹션 바로 아래 큰 버튼
+      after: { label: "블로그 수익화 7기\n라이브 혜택가로 합류하기",          // ⑧ 섹션 바로 아래 큰 버튼 (\n 윗줄 작게 / 아랫줄 크게)
                url:   "https://m.site.naver.com/2lDv1",
                showFrom: "2026-11-23T21:00" },                              // 이 시각부터 보임 (새로고침 없이 자동으로 나타남)
       lockNote: "비밀번호는 **11/23 특강 마지막에 공개합니다.** 끝까지 함께하신 분은 그때 받은 비밀번호로 열어보세요.",
