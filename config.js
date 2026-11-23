@@ -254,7 +254,7 @@ const CONFIG = {
 
     /* ⑦ ------------------------------------------------------------------ */
     {
-      n: 7, slug: "dday", kind: "영상", when: "D-day · 11/23(월)", date: "2026-11-23", openAt: "2026-11-23T17:50", thumb: "images/thumb-07.jpg",
+      n: 7, slug: "dday", kind: "영상", when: "D-day · 11/23(월)", date: "2026-11-23", openAt: "2026-11-23T12:00", thumb: "images/thumb-07.jpg",
       title: "[자청X노마케터스] 딱 1번배워 평생 써먹는 블로그 수익화",
       video: { type: "link", url: "https://m.site.naver.com/2isNE", thumb: "images/thumb-07.jpg",
                title: "노마×자청 대표님 인터뷰 | 프드프",
