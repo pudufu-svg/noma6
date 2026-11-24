@@ -645,7 +645,7 @@ function tileHTML(it, i){
   if(isVid) cover += '<span class="pl">▶</span>';
   if(lk) cover += '<span class="lk">🔒</span>';
   cover += '<span class="no">'+CIRC[it.n]+' '+esc(it.kind||"")+'</span><span class="ck">✓</span>';
-  if(lk && it.final) cover += '<span class="veil">🔒 '+esc(openText(it))+' 공개</span>';
+  if(lk && it.final && !it.veil) cover += '<span class="veil">🔒 '+esc(openText(it))+' 공개</span>';   /* 공개 시각은 카드 아래 줄에 이미 나옴 → veil 문구가 있으면 그걸 씀 */
   else if(it.veil) cover += '<span class="veil">'+esc(it.lockIcon||"🔒")+' '+esc(it.veil)+'</span>';
   return '<a class="gift'+(nw?' new':'')+(lk?' locked':'')+(it.final?' soon':'')+(it.variant?' v-'+esc(it.variant):'')+'" href="#item-'+it.n+'" data-tile="'+it.n+'" data-item="'+it.n+'" style="--i:'+i+'"><div class="gc">'+cover+'</div>'+
          '<div class="gt"><span class="tg">'+(lk?'🔒 '+esc(openText(it))+' 공개':nw?'NEW · 오늘 공개':esc(it.when||""))+'</span><h3>'+esc(it.title)+'</h3>'+(st?'<p class="q">“'+esc(st)+'”</p>':'')+'</div></a>';
