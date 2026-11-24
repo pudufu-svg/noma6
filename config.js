@@ -42,6 +42,7 @@ const CONFIG = {
     durationMin: 180,                          // 19:00~22:00 를 '라이브 중'으로 표시 (21시 이후 연장돼도 '끝났습니다'가 안 뜨게)
     channel:     "유튜브 라이브",
     joinOpenTime:"18:50",
+    liveScreen:  false,                       // false = 상단 라이브 화면 + 'LIVE' 표기 숨김 (true 로 바꾸면 다시 보임)
     youtube:     "baREG1c8SAY",               // 유튜브 라이브 영상 ID (pudufu.co.kr/live/673 이 이 영상으로 연결됨) → 상단 화면에서 바로 재생
     liveUrl:     "https://pudufu.co.kr/live/673?share=group",   // '유튜브에서 보기 · 채팅 참여' 버튼이 여는 주소
     joinUrl:     "",                          // TODO: 7기 라이브 페이지 주소 (6기는 https://pudufu.co.kr/live/673). 넣으면 18:50부터 입장 버튼이 생김
@@ -282,9 +283,9 @@ const CONFIG = {
       title: "월 100 블로그 수익화 실전 요약집",                                   // 7기 요약집 (구글 드라이브, PDF 자체에 비밀번호)
       cta:   { label: "요약집 PDF 받기", icon: "⤓",
                url: "https://drive.google.com/file/d/1PoEpu569gQ-mRuhXPmypK_bIQHVLSdvq/view?usp=sharing" },
-      after: { label: "블로그 수익화 7기\n라이브 혜택가로 합류하기",          // ⑧ 섹션 바로 아래 큰 버튼 (\n 윗줄 작게 / 아랫줄 크게)
+      after: { label: "블로그 수익화 7기\n라이브 혜택가로 합류하기",          // 자료 목록 맨 아래 큰 버튼 (\n 윗줄 작게 / 아랫줄 크게)
                url:   "https://m.site.naver.com/2lDv1",
-               showFrom: "2026-11-23T21:00" },                              // 이 시각부터 보임 (새로고침 없이 자동으로 나타남)
+               showFrom: "2026-11-25T20:00" },                              // 이 시각부터 보임 (새로고침 없이 자동으로 나타남)
       lockNote: "비밀번호는 **11/23 특강 마지막에 공개합니다.** 끝까지 함께하신 분은 그때 받은 비밀번호로 열어보세요.",
       guide: {
         focus: "특강을 끝까지 들으셨다면, 그때 받은 비밀번호로 바로 열면 돼요"
@@ -294,6 +295,7 @@ const CONFIG = {
     /* ⑨ 11/25 앵콜 특강 선물: 11/24 앵콜 안내 전까지는 카드 자체가 안 보임 -- */
     {
       n: 9, slug: "encore", kind: "앵콜 선물", when: "11/25 앵콜 특강 · 끝까지 계신 분께", final: true, variant: "encore", icon: "🎀",
+      hide: true,                                                            // 잠시 숨김 (지우면 다시 보임)
       showFrom: "2026-11-24T00:00", openAt: "2026-11-25T19:00", veil: "비밀번호는 앵콜 끝에 공개", lockIcon: "🔒",
       lockedNote: "**11/25 앵콜 특강을 끝까지 함께하신 분께** 드리는 선물입니다. 비밀번호는 앵콜 특강 마지막에 공개합니다.",
       date: "2026-11-25",

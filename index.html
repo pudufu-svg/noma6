@@ -580,7 +580,7 @@ function phase(){ var n=now(); return n<joinAt?"before":n<startAt?"join":n<endAt
  *  openAt   : 이 시각(KST) 전에는 제목만 보이고 내용은 잠김
  *  showFrom : 이 시각(KST) 전에는 아예 안 보임 (글 · guide · missing 에 사용)        */
 function at(s){ return s ? kst(String(s).slice(0,10), String(s).slice(11,16)||"00:00") : null; }
-function shown(o){ var t=o&&at(o.showFrom); return !t || now()>=t; }
+function shown(o){ if(o && o.hide) return false; var t=o&&at(o.showFrom); return !t || now()>=t; }
 function isLocked(it){ var t=at(it.openAt); return !!(t && now()<t); }
 function openText(it){ var t=at(it.openAt), hm=String(it.openAt||"").slice(11,16); return dateLabel(t)+(hm&&hm!=="00:00"?" "+hm:""); }
 function surveyOpen(){ var S=CONFIG.survey; if(!S||!S.url) return false; var u=at(S.until); return !u || now()<u; }
@@ -740,10 +740,11 @@ function render(target){
   h += '<div class="wrap"><header class="hero" id="top"><div class="glow" aria-hidden="true"></div>';
   if(H.kicker) h += '<p class="pill">'+esc(H.kicker)+'</p>';
   if(B.banner) h += '<figure class="banner"><img src="'+esc(B.banner)+'" alt="'+esc(B.bannerAlt||"")+'" onerror="this.parentNode.remove()"></figure>';
-  h += '<p class="chip" id="chip">무료 LIVE · '+esc(dLabel)+' '+esc(liveTimeText())+' · '+esc(L.channel||"")+'</p>';
+  var LS = L.liveScreen !== false;   /* false → 라이브 화면 + LIVE 표기 숨김 */
+  if(LS) h += '<p class="chip" id="chip">무료 LIVE · '+esc(dLabel)+' '+esc(liveTimeText())+' · '+esc(L.channel||"")+'</p>';
   /* 라이브 화면 — lecture.youtube 를 넣으면 여기서 바로 재생, 비어 있으면 안내 화면 */
   /* 누르면 유튜브(라이브 링크)로 이동 — 영상은 페이지에 넣지 않음 */
-  h += YT
+  if(LS) h += YT
     ? '<a class="player plink" id="player" href="'+esc(YT_URL)+'" target="_blank" rel="noopener" data-ytout aria-label="유튜브에서 라이브 보기">'+
       '<img src="https://i.ytimg.com/vi/'+encodeURIComponent(YT)+'/maxresdefault.jpg" alt="" onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/'+encodeURIComponent(YT)+'/hqdefault.jpg\'">'+
       '<span class="pov"><span class="lvb">LIVE</span><span class="ytb">▶</span><small>누르면 유튜브에서 바로 볼 수 있어요 ↗</small></span></a>'
@@ -786,7 +787,8 @@ function render(target){
   }
   var openN = ITEMS.filter(function(it){ return !isLocked(it); }).length, lockN = ITEMS.length - openN;
   h += '<div class="prog" aria-live="polite"'+(openN?'':' hidden')+'><span><b id="progN">0</b> / '+openN+'개 확인'+(lockN?' · 🔒 '+lockN+'개는 아직 잠김':'')+'</span><div class="bar"><i id="progBar"></i></div></div>';
-  h += '<div class="items">'; ITEMS.forEach(function(it,i){ h += itemHTML(it,i); if(it.after && it.after.url) h += endCtaHTML(it.after); }); h += '</div>';
+  h += '<div class="items">'; ITEMS.forEach(function(it,i){ h += itemHTML(it,i); }); h += '</div>';
+  CONFIG.items.forEach(function(it){ if(it.after && it.after.url && !it.hide) h += endCtaHTML(it.after); });   /* 큰 신청 버튼 — 자료 목록 맨 아래 */
 
   if(M && shown(M)){
     h += '<section class="block missing reveal" id="missing"><div class="bh"><span class="ic">🚫</span>'+esc(M.heading)+'</div><ul>';
@@ -975,7 +977,7 @@ function joinBtn(cls,label){ return L.joinUrl ? '<a class="'+cls+'" href="'+esc(
 function heroTick(p, t){
   var status=$("#status"), when=$("#when"), chip=$("#chip"), sub=$("#pphSub");
   var on = p==="join" || p==="live";
-  chip.textContent = p==="live" ? "지금 LIVE 중 · "+(L.channel||"") : "무료 LIVE · "+dateLabel(startAt)+" "+liveTimeText()+" · "+(L.channel||"");
+  if(chip) chip.textContent = p==="live" ? "지금 LIVE 중 · "+(L.channel||"") : "무료 LIVE · "+dateLabel(startAt)+" "+liveTimeText()+" · "+(L.channel||"");
   status.classList.toggle("open", on);
   if(p==="before") status.textContent = "🔴 "+liveTimeText()+", 위 화면에서 바로 라이브가 시작돼요";
   else if(p==="join") status.textContent = YT ? "곧 시작해요 · 위 화면의 ▶ 를 누르면 유튜브로 이동해요" : "곧 시작해요 · 라이브 화면이 이 자리에 올라옵니다";
@@ -1013,7 +1015,7 @@ function tick(){
   if(p!==lastPhase){
     lastPhase=p;
     var on=(p==="join"||p==="live");
-    var ytBtn = YT_URL ? '<a class="btn'+(on?'':' ghost')+'" href="'+esc(YT_URL)+'" target="_blank" rel="noopener" data-ytout>▶ 유튜브에서 라이브 보기 ↗</a>' : '';
+    var ytBtn = (YT_URL && L.liveScreen !== false) ? '<a class="btn'+(on?'':' ghost')+'" href="'+esc(YT_URL)+'" target="_blank" rel="noopener" data-ytout>▶ 유튜브에서 라이브 보기 ↗</a>' : '';
     var acts = p==="after" ? "" : ytBtn + (p==="before" ? '<button class="btn ghost" type="button" data-copy>🔖 링크 저장</button>' : "");
     ["#heroActs","#liveActs"].forEach(function(id){ var b=$(id); if(b) b.innerHTML=acts; });
     $("#stBtn").innerHTML = on ? '<a class="btn" href="#top">▶ 라이브 보기</a>' : (p==="before" ? (surveyOpen() ? '<a class="btn" href="'+esc(CONFIG.survey.url)+'" target="_blank" rel="noopener" data-survey>'+esc(CONFIG.survey.short||"설문 참여")+'</a>' : '<a class="btn" href="#top">라이브 화면</a>') : ($("#offer") ? '<a class="btn" href="'+esc(CONFIG.offer.url)+'" target="_blank" rel="noopener" data-offer>'+esc(CONFIG.offer.short||"신청하기")+'</a>' : ''));
