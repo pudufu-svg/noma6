@@ -27,8 +27,8 @@ const CONFIG = {
   /* ── 블로그 겉모양 ──────────────────────────────────────────────── */
   blog: {
     name:        "노마케터스의 특강 자료방",
-    banner:      "images/banner-noma7.jpg",  // 7기 무료특강 썸네일
-    bannerAlt:   "11월 23일(월) PM 7:00 LIVE · 딱 1번 배워 평생 월 100 버는 블로그 수익화 · 블로그 1타 강사 노마케터스",
+    banner:      "images/banner-noma7-encore.webp",  // 7기 앵콜 썸네일 (11/25 수) · 1차 썸네일은 images/banner-noma7.jpg
+    bannerAlt:   "11월 25일(수) PM 7:00 LIVE · 딱 1번 배워 평생 월 100 버는 블로그 수익화 · 블로그 1타 강사 노마케터스",
     profileImg:  "images/profile.jpg",
     nickname:    "노마케터스",
     profileDesc: "블로그 1타 강사 · 무료특강 신청자 전용"
