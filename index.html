@@ -730,7 +730,7 @@ function itemHTML(it, i){
 
   h += bodyHTML(it, false);
   h += '<div class="ifoot"><button class="chk" type="button" aria-pressed="false" data-n="'+it.n+'"><span class="bx"></span>봤어요</button>';
-  h += next ? '<a class="nextl" href="#item-'+next.n+'">다음 '+CIRC[next.n]+' ↓</a>' : '<a class="nextl" href="#top">라이브 화면 ↑</a>';
+  h += next ? '<a class="nextl" href="#item-'+next.n+'">다음 '+CIRC[next.n]+' ↓</a>' : '<a class="nextl" href="#top">'+(L.liveScreen === false ? '맨 위로 ↑' : '라이브 화면 ↑')+'</a>';
   h += '</div></div></section>';
   return h;
 }
@@ -986,6 +986,7 @@ function heroTick(p, t){
   else status.textContent = "";   /* 라이브 종료 후엔 안내 문구 없음 */
   when.textContent = p==="after" ? "" : on ? (YT ? "유튜브에서 채팅도 함께 참여하실 수 있어요" : "") : remainText(startAt-t)+" 남음 · "+(L.liveNote||"");
   if(sub) sub.textContent = p==="before" ? "이 화면에서 바로 라이브가 시작됩니다" : p==="after" ? "라이브가 끝났습니다" : "라이브 화면을 준비하고 있어요";
+  if(L.liveScreen === false){ status.textContent = ""; when.textContent = ""; }   /* 라이브 화면을 숨겼을 땐 배너 아래 안내 문구도 없음 */
 }
 function tick(){
   var p=phase(), nowT=now(), cd;
@@ -1017,9 +1018,10 @@ function tick(){
     lastPhase=p;
     var on=(p==="join"||p==="live");
     var ytBtn = (YT_URL && L.liveScreen !== false) ? '<a class="btn'+(on?'':' ghost')+'" href="'+esc(YT_URL)+'" target="_blank" rel="noopener" data-ytout>▶ 유튜브에서 라이브 보기 ↗</a>' : '';
-    var acts = p==="after" ? "" : ytBtn + (p==="before" ? '<button class="btn ghost" type="button" data-copy>🔖 링크 저장</button>' : "");
+    var acts = (p==="after" || L.liveScreen === false) ? "" : ytBtn + (p==="before" ? '<button class="btn ghost" type="button" data-copy>🔖 링크 저장</button>' : "");
     ["#heroActs","#liveActs"].forEach(function(id){ var b=$(id); if(b) b.innerHTML=acts; });
-    $("#stBtn").innerHTML = on ? '<a class="btn" href="#top">▶ 라이브 보기</a>' : (p==="before" ? (surveyOpen() ? '<a class="btn" href="'+esc(CONFIG.survey.url)+'" target="_blank" rel="noopener" data-survey>'+esc(CONFIG.survey.short||"설문 참여")+'</a>' : '<a class="btn" href="#top">라이브 화면</a>') : ($("#offer") ? '<a class="btn" href="'+esc(CONFIG.offer.url)+'" target="_blank" rel="noopener" data-offer>'+esc(CONFIG.offer.short||"신청하기")+'</a>' : ''));
+    var LSo = L.liveScreen !== false;
+    $("#stBtn").innerHTML = on ? (LSo ? '<a class="btn" href="#top">▶ 라이브 보기</a>' : '') : (p==="before" ? (surveyOpen() ? '<a class="btn" href="'+esc(CONFIG.survey.url)+'" target="_blank" rel="noopener" data-survey>'+esc(CONFIG.survey.short||"설문 참여")+'</a>' : (LSo ? '<a class="btn" href="#top">라이브 화면</a>' : '')) : ($("#offer") ? '<a class="btn" href="'+esc(CONFIG.offer.url)+'" target="_blank" rel="noopener" data-offer>'+esc(CONFIG.offer.short||"신청하기")+'</a>' : ''));
   }
 }
 
