@@ -81,6 +81,7 @@ mark{background:linear-gradient(transparent 55%,rgba(255,216,77,.38) 55%);color:
 .status{margin:16px 0 0;font-size:15.5px;font-weight:800;letter-spacing:-.02em;word-break:keep-all}
 .status.open{color:var(--green-hi)}
 .when{margin:3px 0 0;font-size:13.5px;color:var(--ink-2);word-break:keep-all}
+.status:empty,.when:empty{margin:0}
 .hero .actions{justify-content:flex-start;margin-top:14px}
 .hero .pill,.hero .banner,.hero .chip,.hero .status,.hero .when{opacity:0;transform:translateY(14px);animation:rise .6s var(--spring) forwards}
 .hero .banner{animation-delay:.05s}.hero .chip{animation-delay:.12s}.hero .status{animation-delay:.5s}.hero .when{animation-delay:.56s}
@@ -982,8 +983,8 @@ function heroTick(p, t){
   if(p==="before") status.textContent = "🔴 "+liveTimeText()+", 위 화면에서 바로 라이브가 시작돼요";
   else if(p==="join") status.textContent = YT ? "곧 시작해요 · 위 화면의 ▶ 를 누르면 유튜브로 이동해요" : "곧 시작해요 · 라이브 화면이 이 자리에 올라옵니다";
   else if(p==="live") status.textContent = YT ? "● 지금 라이브 중 · 위 화면의 ▶ 를 눌러 유튜브에서 시청하세요" : "● 지금 라이브 중 · 라이브 화면이 곧 올라옵니다";
-  else status.textContent = "라이브가 끝났습니다. 함께해 주셔서 감사합니다.";
-  when.textContent = p==="after" ? (L.liveNote ? "다시보기는 없습니다" : "") : on ? (YT ? "유튜브에서 채팅도 함께 참여하실 수 있어요" : "") : remainText(startAt-t)+" 남음 · "+(L.liveNote||"");
+  else status.textContent = "";   /* 라이브 종료 후엔 안내 문구 없음 */
+  when.textContent = p==="after" ? "" : on ? (YT ? "유튜브에서 채팅도 함께 참여하실 수 있어요" : "") : remainText(startAt-t)+" 남음 · "+(L.liveNote||"");
   if(sub) sub.textContent = p==="before" ? "이 화면에서 바로 라이브가 시작됩니다" : p==="after" ? "라이브가 끝났습니다" : "라이브 화면을 준비하고 있어요";
 }
 function tick(){
