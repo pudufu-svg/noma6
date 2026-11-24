@@ -292,17 +292,17 @@ const CONFIG = {
       }
     },
 
-    /* ⑨ 11/25 앵콜 특강 선물: 11/24 앵콜 안내 전까지는 카드 자체가 안 보임 -- */
+    /* ⑨ 11/25(수) 앵콜 특강 선물: 11/24 앵콜 안내 전까지는 카드 자체가 안 보임 -- */
     {
-      n: 9, slug: "encore", kind: "앵콜 선물", when: "11/25 앵콜 특강 · 끝까지 계신 분께", final: true, variant: "encore", icon: "🎀",
+      n: 9, slug: "encore", kind: "앵콜 선물", when: "11/25(수) 앵콜 특강 · 끝까지 계신 분께", final: true, variant: "encore", icon: "🎀",
       hide: true,                                                            // 잠시 숨김 (지우면 다시 보임)
       showFrom: "2026-11-24T00:00", openAt: "2026-11-25T19:00", veil: "비밀번호는 앵콜 끝에 공개", lockIcon: "🔒",
-      lockedNote: "**11/25 앵콜 특강을 끝까지 함께하신 분께** 드리는 선물입니다. 비밀번호는 앵콜 특강 마지막에 공개합니다.",
+      lockedNote: "**11/25(수) 앵콜 특강을 끝까지 함께하신 분께** 드리는 선물입니다. 비밀번호는 앵콜 특강 마지막에 공개합니다.",
       date: "2026-11-25",
       title: "ChatGPT 답답할 때 쓰는 프롬프트 30선",                              // ⚠ 6기 선물 그대로. 7기 앵콜 선물 확인
       cta:   { label: "자료 받으러 가기", icon: "📁", url: "https://drive.google.com/file/d/1JZ8ir-jSLPGuARPxwqv-sYUbHIJcXN2E/view?usp=sharing" },
       guide: {
-        focus: "11/25 앵콜을 끝까지 들으셨다면, 그때 받은 비밀번호로 바로 열면 돼요"
+        focus: "11/25(수) 앵콜을 끝까지 들으셨다면, 그때 받은 비밀번호로 바로 열면 돼요"
       }
     }
   ],
