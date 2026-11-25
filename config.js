@@ -294,7 +294,7 @@ const CONFIG = {
 
     /* ⑨ 11/25(수) 앵콜 특강 선물: 11/24 앵콜 안내 전까지는 카드 자체가 안 보임 -- */
     {
-      n: 9, slug: "encore", kind: "앵콜 선물", when: "11/25(수) 앵콜 특강 · 끝까지 계신 분께", final: true, variant: "encore", icon: "🎀",
+      n: 9, slug: "encore", land: "bottom", kind: "앵콜 선물", when: "11/25(수) 앵콜 특강 · 끝까지 계신 분께", final: true, variant: "encore", icon: "🎀",
       showFrom: "2026-11-24T00:00", openAt: "2026-11-25T19:00", veil: "비밀번호는 특강 마무리에 공개", lockIcon: "🔒",
       lockedNote: "**11/25(수) 앵콜 특강을 끝까지 함께하신 분께** 드리는 선물입니다. 비밀번호는 특강 마무리에 공개합니다.",
       date: "2026-11-25",
