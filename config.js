@@ -44,6 +44,13 @@ const CONFIG = {
     joinOpenTime:"18:50",
     liveScreen:  "2026-11-25T18:50",          // 이 시각부터 상단 라이브 화면 + LIVE 표기 보임 (false = 숨김, true = 항상)
     liveEnded:   true,                        // true = 상단 화면을 "라이브가 종료되었습니다" 로 (링크 없음)
+    replay: {                                 // 종료 후 다시보기 창 (until 이 지나면 자동으로 "종료되었습니다" 로 돌아감)
+      url:   "",                              // TODO: 다시보기 링크 (비어 있으면 다시보기 창 숨김). ⚠ rPv-Upg8qWI 는 현재 비공개
+      title: "11/25(수) 라이브 다시보기",          // ⑧ 특강 선물 위 다시보기 제목
+      until: "2026-11-30T00:00",              // 11/29(일) 밤 12시까지
+      chip:  "11/25(수) 라이브 다시보기 · 11/29(일) 밤 12시까지",
+      cta:   { label: "7기 합류하기", url: "https://m.site.naver.com/2lDv1" }   // 다시보기 창 바로 아래 버튼
+    },
     youtube:     "rPv-Upg8qWI",               // 11/25 앵콜 유튜브 라이브 (썸네일용) → 누르면 아래 liveUrl 로 이동  (11/23 1차: baREG1c8SAY)
     liveUrl:     "https://pudufu.co.kr/live/673?share=group",   // 화면·버튼이 여는 주소 (지금은 rPv-Upg8qWI 로 연결됨) (비우면 유튜브 주소로 바로 이동)  (11/23 1차: https://pudufu.co.kr/live/673?share=group)
     joinUrl:     "",                          // TODO: 7기 라이브 페이지 주소 (6기는 https://pudufu.co.kr/live/673). 넣으면 18:50부터 입장 버튼이 생김
@@ -278,7 +285,7 @@ const CONFIG = {
 
     /* ⑧ 11/23 무료특강 선물 (특강 시작 시각에 열림, PDF 자체에 비밀번호) --- */
     {
-      n: 8, slug: "gift", land: "section", kind: "특강 선물", when: "무료특강 · 끝까지 계신 분께", final: true, icon: "🎁",
+      n: 8, slug: "gift", land: "section", replayAbove: true, kind: "특강 선물", when: "무료특강 · 끝까지 계신 분께", final: true, icon: "🎁",
       openAt: "2026-11-23T19:00", veil: "비밀번호는 특강 마무리에 공개", lockIcon: "🔒",
       lockedNote: "**11/23 특강을 끝까지 함께하신 분께** 드리는 선물입니다. 비밀번호는 특강 마지막에 공개합니다.",
       title: "월 100 블로그 수익화 실전 요약집",                                   // 7기 요약집 (구글 드라이브, PDF 자체에 비밀번호)
