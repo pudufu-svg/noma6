@@ -43,6 +43,7 @@ const CONFIG = {
     channel:     "유튜브 라이브",
     joinOpenTime:"18:50",
     liveScreen:  "2026-11-25T18:50",          // 이 시각부터 상단 라이브 화면 + LIVE 표기 보임 (false = 숨김, true = 항상)
+    liveEnded:   true,                        // true = 상단 화면을 "라이브가 종료되었습니다" 로 (링크 없음)
     youtube:     "rPv-Upg8qWI",               // 11/25 앵콜 유튜브 라이브 (썸네일용) → 누르면 아래 liveUrl 로 이동  (11/23 1차: baREG1c8SAY)
     liveUrl:     "https://pudufu.co.kr/live/673?share=group",   // 화면·버튼이 여는 주소 (지금은 rPv-Upg8qWI 로 연결됨) (비우면 유튜브 주소로 바로 이동)  (11/23 1차: https://pudufu.co.kr/live/673?share=group)
     joinUrl:     "",                          // TODO: 7기 라이브 페이지 주소 (6기는 https://pudufu.co.kr/live/673). 넣으면 18:50부터 입장 버튼이 생김
